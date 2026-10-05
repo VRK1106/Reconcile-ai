@@ -1,0 +1,178 @@
+[
+  {
+    "txn_id": "TXN-20260902-01",
+    "date": "2026-09-03",
+    "type": "DEBIT",
+    "amount": 17700.0,
+    "narration": "NEFT/SHARMA TRADING COMPANY/CANB000182/INV1041",
+    "ref_no": "UTR-CNB0903001"
+  },
+  {
+    "txn_id": "TXN-20260904-02",
+    "date": "2026-09-05",
+    "type": "DEBIT",
+    "amount": 41300.0,
+    "narration": "RTGS/POLYCAB WIRES AND CABLES/HDFC000021/POL98214",
+    "ref_no": "UTR-HDF0905002"
+  },
+  {
+    "txn_id": "TXN-20260905-03",
+    "date": "2026-09-06",
+    "type": "DEBIT",
+    "amount": 25960.0,
+    "narration": "NEFT/HAVELLS INDIA LIMITED/YESB000014/HAV4412",
+    "ref_no": "UTR-YES0906003"
+  },
+  {
+    "txn_id": "TXN-20260906-04",
+    "date": "2026-09-07",
+    "type": "DEBIT",
+    "amount": 21830.0,
+    "narration": "IMPS/SUPREME INDUSTRIES LTD/PUNB0021/0911",
+    "ref_no": "UTR-PUN0907004"
+  },
+  {
+    "txn_id": "TXN-20260908-05",
+    "date": "2026-09-09",
+    "type": "DEBIT",
+    "amount": 66560.0,
+    "narration": "RTGS/ASIAN PAINTS LIMITED/SBIN000412/771",
+    "ref_no": "UTR-SBI0909005"
+  },
+  {
+    "txn_id": "TXN-20260910-06",
+    "date": "2026-09-11",
+    "type": "DEBIT",
+    "amount": 14632.0,
+    "narration": "NEFT/FINOLEX CABLES LTD/ICIC000091/00921",
+    "ref_no": "UTR-ICI0911006"
+  },
+  {
+    "txn_id": "TXN-20260911-07",
+    "date": "2026-09-12",
+    "type": "DEBIT",
+    "amount": 10502.0,
+    "narration": "UPI/ANCHOR BY PANASONIC/KKBK00011/3012",
+    "ref_no": "UTR-KKB0912007"
+  },
+  {
+    "txn_id": "TXN-20260912-08",
+    "date": "2026-09-13",
+    "type": "DEBIT",
+    "amount": 36580.0,
+    "narration": "RTGS/SCHNEIDER ELECTRIC INDIA/AXIS0009/5541",
+    "ref_no": "UTR-AXI0913008"
+  },
+  {
+    "txn_id": "TXN-20260913-09",
+    "date": "2026-09-14",
+    "type": "DEBIT",
+    "amount": 16756.0,
+    "narration": "NEFT/GODREJ LOCKING SOLUTIONS/CORP0001/8801",
+    "ref_no": "UTR-COR0914009"
+  },
+  {
+    "txn_id": "TXN-20260914-10",
+    "date": "2026-09-15",
+    "type": "DEBIT",
+    "amount": 9204.0,
+    "narration": "IMPS/MANGALORE TOOLS & FASTENERS/SYNB001/0492",
+    "ref_no": "UTR-SYN0915010"
+  },
+  {
+    "txn_id": "TXN-20260916-11",
+    "date": "2026-09-17",
+    "type": "DEBIT",
+    "amount": 28320.0,
+    "narration": "NEFT/SHARMA TRDRS BLR/AXIS00091/SETTL",
+    "ref_no": "UTR-AXI0917011"
+  },
+  {
+    "txn_id": "TXN-20260917-12",
+    "date": "2026-09-18",
+    "type": "DEBIT",
+    "amount": 23010.0,
+    "narration": "RTGS/POLYWIRES/CBIN0280/WIREPYMT",
+    "ref_no": "UTR-CBI0918012"
+  },
+  {
+    "txn_id": "TXN-20260918-13",
+    "date": "2026-09-19",
+    "type": "DEBIT",
+    "amount": 44840.0,
+    "narration": "HAVELLS KA CLG CHQ 7712/MANIPAL BR",
+    "ref_no": "UTR-CHQ0919013"
+  },
+  {
+    "txn_id": "TXN-20260919-14",
+    "date": "2026-09-20",
+    "type": "DEBIT",
+    "amount": 18880.0,
+    "narration": "NEFT/SUPREME PLAST/HDFC0012/FITTINGS",
+    "ref_no": "UTR-HDF0920014"
+  },
+  {
+    "txn_id": "TXN-20260920-15",
+    "date": "2026-09-21",
+    "type": "DEBIT",
+    "amount": 47200.0,
+    "narration": "RTGS/SHARMA TRDRS/AXIS00091/BULK STC1042-43",
+    "ref_no": "UTR-AXI0921015"
+  },
+  {
+    "txn_id": "TXN-20260921-16",
+    "date": "2026-09-22",
+    "type": "DEBIT",
+    "amount": 85000.0,
+    "narration": "RTGS/APL BLR DEPOT/SBIN000412/CONSOLIDATED",
+    "ref_no": "UTR-SBI0922016"
+  },
+  {
+    "txn_id": "TXN-20260922-17",
+    "date": "2026-09-23",
+    "type": "DEBIT",
+    "amount": 30000.0,
+    "narration": "NEFT/ANCHOR ELEC/KKBK00011/PART PYMT 3199",
+    "ref_no": "UTR-KKB0923017"
+  },
+  {
+    "txn_id": "TXN-20260923-18",
+    "date": "2026-09-24",
+    "type": "DEBIT",
+    "amount": 24500.0,
+    "narration": "NEFT/GODREJ LOCKS/CORP0001/LESS 2PCT CASH DISC",
+    "ref_no": "UTR-COR0924018"
+  },
+  {
+    "txn_id": "TXN-20260925-19",
+    "date": "2026-09-25",
+    "type": "DEBIT",
+    "amount": 15000.0,
+    "narration": "CHQ WDL/SHOP RENT TIGER CIRCLE/SRI KRISHNA COMPLEX",
+    "ref_no": "UTR-CHQ0925019"
+  },
+  {
+    "txn_id": "TXN-20260926-20",
+    "date": "2026-09-26",
+    "type": "DEBIT",
+    "amount": 4200.0,
+    "narration": "MESCOM ELECTRICITY BILL/MANIPAL SUBDIV",
+    "ref_no": "UTR-MES0926020"
+  },
+  {
+    "txn_id": "TXN-20260927-21",
+    "date": "2026-09-27",
+    "type": "DEBIT",
+    "amount": 3500.0,
+    "narration": "STAFF TEA AND LUNCH ALLOWANCE/CASH",
+    "ref_no": "UTR-CSH0927021"
+  },
+  {
+    "txn_id": "TXN-20260928-22",
+    "date": "2026-09-28",
+    "type": "DEBIT",
+    "amount": 50000.0,
+    "narration": "TRANSFER TO CURRENT ACC OVERDRAFT",
+    "ref_no": "UTR-TRF0928022"
+  }
+]

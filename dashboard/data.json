@@ -1,0 +1,907 @@
+[
+  {
+    "invoice_id": "INV-101",
+    "invoice_number": "STC/26/1041",
+    "supplier_name": "Sharma Trading Company",
+    "supplier_gstin": "29AABCS1429B1Z2",
+    "invoice_date": "2026-09-02",
+    "total_amount": 17700.0,
+    "case_type": "clean_single_match",
+    "description": "Standard clean single invoice matching bank payment",
+    "decision": "AUTO_RESOLVE_PAID",
+    "confidence": "HIGH",
+    "confidence_score": 0.98,
+    "matched_txns": [
+      "TXN-20260902-01"
+    ],
+    "reconciliation_details": {
+      "bank_txn_id": "TXN-20260902-01",
+      "txn_date": "2026-09-03",
+      "ref_no": "UTR-CNB0903001",
+      "amount_matched": 17700.0,
+      "match_basis": "EXACT_AMOUNT_AND_NARRATION_ALIAS"
+    },
+    "reasoning_trace": [
+      "Step 1 [Intake]: Received Invoice STC/26/1041 (ID: INV-101) from 'Sharma Trading Company' (GSTIN: 29AABCS1429B1Z2) for \u20b917,700.00 dated 2026-09-02.",
+      "Step 2 [Guardrails Passed]: GSTIN format valid, tax math verified, duplicate check passed.",
+      "Step 3 [Tool Call: supplier_history_lookup]: Found supplier 'Sharma Trading Company' (ID: SUP001, Category: Switches & Wiring Accessories). Known aliases: ['SHARMA TRDRS', 'SHARMA TRADING', 'SHARMA TRDRS BLR', 'SHARMA TRAD CO'].",
+      "Step 4 [Tool Call: bank_row_search]: Found 1 candidate transaction(s) with exact amount \u20b917,700.00.",
+      "Step 5 [Match Confirmed]: Bank Txn TXN-20260902-01 on 2026-09-03 (Ref: UTR-CNB0903001) matches. Narration: 'NEFT/SHARMA TRADING COMPANY/CANB000182/INV1041'.",
+      "Step 6 [Autonomous Action]: Confidence HIGH (0.98). Auto-resolving and marking invoice as PAID in purchase ledger."
+    ],
+    "requires_human": false,
+    "action": "AUTO_POST_LEDGER",
+    "telegram_notification": null,
+    "email_draft": null
+  },
+  {
+    "invoice_id": "INV-102",
+    "invoice_number": "POL-98214",
+    "supplier_name": "Polycab Wires & Cables Ltd",
+    "supplier_gstin": "29AAACP2194D1ZK",
+    "invoice_date": "2026-09-04",
+    "total_amount": 41300.0,
+    "case_type": "clean_single_match",
+    "description": "Clean match from Telegram photo upload",
+    "decision": "AUTO_RESOLVE_PAID",
+    "confidence": "HIGH",
+    "confidence_score": 0.98,
+    "matched_txns": [
+      "TXN-20260904-02"
+    ],
+    "reconciliation_details": {
+      "bank_txn_id": "TXN-20260904-02",
+      "txn_date": "2026-09-05",
+      "ref_no": "UTR-HDF0905002",
+      "amount_matched": 41300.0,
+      "match_basis": "EXACT_AMOUNT_AND_NARRATION_ALIAS"
+    },
+    "reasoning_trace": [
+      "Step 1 [Intake]: Received Invoice POL-98214 (ID: INV-102) from 'Polycab Wires & Cables Ltd' (GSTIN: 29AAACP2194D1ZK) for \u20b941,300.00 dated 2026-09-04.",
+      "Step 2 [Guardrails Passed]: GSTIN format valid, tax math verified, duplicate check passed.",
+      "Step 3 [Tool Call: supplier_history_lookup]: Found supplier 'Polycab Wires & Cables Ltd' (ID: SUP002, Category: Wires & Industrial Cables). Known aliases: ['POLYCAB WIRES', 'POLYWIRES', 'POLYCAB INDIA', 'POLYCAB LTD'].",
+      "Step 4 [Tool Call: bank_row_search]: Found 1 candidate transaction(s) with exact amount \u20b941,300.00.",
+      "Step 5 [Match Confirmed]: Bank Txn TXN-20260904-02 on 2026-09-05 (Ref: UTR-HDF0905002) matches. Narration: 'RTGS/POLYCAB WIRES AND CABLES/HDFC000021/POL98214'.",
+      "Step 6 [Autonomous Action]: Confidence HIGH (0.98). Auto-resolving and marking invoice as PAID in purchase ledger."
+    ],
+    "requires_human": false,
+    "action": "AUTO_POST_LEDGER",
+    "telegram_notification": null,
+    "email_draft": null
+  },
+  {
+    "invoice_id": "INV-103",
+    "invoice_number": "HAV-KA-4412",
+    "supplier_name": "Havells India Limited",
+    "supplier_gstin": "29AAACH1820F1ZX",
+    "invoice_date": "2026-09-05",
+    "total_amount": 25960.0,
+    "case_type": "clean_single_match",
+    "description": "Clean match Havells circuit breakers",
+    "decision": "AUTO_RESOLVE_PAID",
+    "confidence": "HIGH",
+    "confidence_score": 0.98,
+    "matched_txns": [
+      "TXN-20260905-03"
+    ],
+    "reconciliation_details": {
+      "bank_txn_id": "TXN-20260905-03",
+      "txn_date": "2026-09-06",
+      "ref_no": "UTR-YES0906003",
+      "amount_matched": 25960.0,
+      "match_basis": "EXACT_AMOUNT_AND_NARRATION_ALIAS"
+    },
+    "reasoning_trace": [
+      "Step 1 [Intake]: Received Invoice HAV-KA-4412 (ID: INV-103) from 'Havells India Limited' (GSTIN: 29AAACH1820F1ZX) for \u20b925,960.00 dated 2026-09-05.",
+      "Step 2 [Guardrails Passed]: GSTIN format valid, tax math verified, duplicate check passed.",
+      "Step 3 [Tool Call: supplier_history_lookup]: Found supplier 'Havells India Limited' (ID: SUP003, Category: Fans, Lighting & Circuit Breakers). Known aliases: ['HAVELLS IND', 'HAVELLS INDIA LTD', 'HAVELLS KA'].",
+      "Step 4 [Tool Call: bank_row_search]: Found 1 candidate transaction(s) with exact amount \u20b925,960.00.",
+      "Step 5 [Match Confirmed]: Bank Txn TXN-20260905-03 on 2026-09-06 (Ref: UTR-YES0906003) matches. Narration: 'NEFT/HAVELLS INDIA LIMITED/YESB000014/HAV4412'.",
+      "Step 6 [Autonomous Action]: Confidence HIGH (0.98). Auto-resolving and marking invoice as PAID in purchase ledger."
+    ],
+    "requires_human": false,
+    "action": "AUTO_POST_LEDGER",
+    "telegram_notification": null,
+    "email_draft": null
+  },
+  {
+    "invoice_id": "INV-104",
+    "invoice_number": "SUP-UD-0911",
+    "supplier_name": "Supreme Industries Ltd",
+    "supplier_gstin": "29AAACS6328P1Z8",
+    "invoice_date": "2026-09-06",
+    "total_amount": 21830.0,
+    "case_type": "clean_single_match",
+    "description": "Clean match Supreme PVC pipes",
+    "decision": "AUTO_RESOLVE_PAID",
+    "confidence": "HIGH",
+    "confidence_score": 0.98,
+    "matched_txns": [
+      "TXN-20260906-04"
+    ],
+    "reconciliation_details": {
+      "bank_txn_id": "TXN-20260906-04",
+      "txn_date": "2026-09-07",
+      "ref_no": "UTR-PUN0907004",
+      "amount_matched": 21830.0,
+      "match_basis": "EXACT_AMOUNT_AND_NARRATION_ALIAS"
+    },
+    "reasoning_trace": [
+      "Step 1 [Intake]: Received Invoice SUP-UD-0911 (ID: INV-104) from 'Supreme Industries Ltd' (GSTIN: 29AAACS6328P1Z8) for \u20b921,830.00 dated 2026-09-06.",
+      "Step 2 [Guardrails Passed]: GSTIN format valid, tax math verified, duplicate check passed.",
+      "Step 3 [Tool Call: supplier_history_lookup]: Found supplier 'Supreme Industries Ltd' (ID: SUP004, Category: PVC Pipes & Plumbing Fittings). Known aliases: ['SUPREME IND', 'SUPREME PIPES', 'SUPREME PLAST'].",
+      "Step 4 [Tool Call: bank_row_search]: Found 1 candidate transaction(s) with exact amount \u20b921,830.00.",
+      "Step 5 [Match Confirmed]: Bank Txn TXN-20260906-04 on 2026-09-07 (Ref: UTR-PUN0907004) matches. Narration: 'IMPS/SUPREME INDUSTRIES LTD/PUNB0021/0911'.",
+      "Step 6 [Autonomous Action]: Confidence HIGH (0.98). Auto-resolving and marking invoice as PAID in purchase ledger."
+    ],
+    "requires_human": false,
+    "action": "AUTO_POST_LEDGER",
+    "telegram_notification": null,
+    "email_draft": null
+  },
+  {
+    "invoice_id": "INV-105",
+    "invoice_number": "APL-MNG-771",
+    "supplier_name": "Asian Paints Limited",
+    "supplier_gstin": "29AAACA2155H1ZV",
+    "invoice_date": "2026-09-08",
+    "total_amount": 66560.0,
+    "case_type": "clean_single_match",
+    "description": "Clean match paints with 28% GST",
+    "decision": "AUTO_RESOLVE_PAID",
+    "confidence": "HIGH",
+    "confidence_score": 0.98,
+    "matched_txns": [
+      "TXN-20260908-05"
+    ],
+    "reconciliation_details": {
+      "bank_txn_id": "TXN-20260908-05",
+      "txn_date": "2026-09-09",
+      "ref_no": "UTR-SBI0909005",
+      "amount_matched": 66560.0,
+      "match_basis": "EXACT_AMOUNT_AND_NARRATION_ALIAS"
+    },
+    "reasoning_trace": [
+      "Step 1 [Intake]: Received Invoice APL-MNG-771 (ID: INV-105) from 'Asian Paints Limited' (GSTIN: 29AAACA2155H1ZV) for \u20b966,560.00 dated 2026-09-08.",
+      "Step 2 [Guardrails Passed]: GSTIN format valid, tax math verified, duplicate check passed.",
+      "Step 3 [Tool Call: supplier_history_lookup]: Found supplier 'Asian Paints Limited' (ID: SUP005, Category: Paints, Primers & Waterproofing). Known aliases: ['ASIAN PAINTS', 'ASIAN PAINTS LTD', 'APL BLR DEPOT'].",
+      "Step 4 [Tool Call: bank_row_search]: Found 1 candidate transaction(s) with exact amount \u20b966,560.00.",
+      "Step 5 [Match Confirmed]: Bank Txn TXN-20260908-05 on 2026-09-09 (Ref: UTR-SBI0909005) matches. Narration: 'RTGS/ASIAN PAINTS LIMITED/SBIN000412/771'.",
+      "Step 6 [Autonomous Action]: Confidence HIGH (0.98). Auto-resolving and marking invoice as PAID in purchase ledger."
+    ],
+    "requires_human": false,
+    "action": "AUTO_POST_LEDGER",
+    "telegram_notification": null,
+    "email_draft": null
+  },
+  {
+    "invoice_id": "INV-106",
+    "invoice_number": "FIN-00921",
+    "supplier_name": "Finolex Cables Ltd",
+    "supplier_gstin": "29AAACF1234L1ZN",
+    "invoice_date": "2026-09-10",
+    "total_amount": 14632.0,
+    "case_type": "clean_single_match",
+    "description": "Clean match Finolex flexible wires",
+    "decision": "AUTO_RESOLVE_PAID",
+    "confidence": "HIGH",
+    "confidence_score": 0.98,
+    "matched_txns": [
+      "TXN-20260910-06"
+    ],
+    "reconciliation_details": {
+      "bank_txn_id": "TXN-20260910-06",
+      "txn_date": "2026-09-11",
+      "ref_no": "UTR-ICI0911006",
+      "amount_matched": 14632.0,
+      "match_basis": "EXACT_AMOUNT_AND_NARRATION_ALIAS"
+    },
+    "reasoning_trace": [
+      "Step 1 [Intake]: Received Invoice FIN-00921 (ID: INV-106) from 'Finolex Cables Ltd' (GSTIN: 29AAACF1234L1ZN) for \u20b914,632.00 dated 2026-09-10.",
+      "Step 2 [Guardrails Passed]: GSTIN format valid, tax math verified, duplicate check passed.",
+      "Step 3 [Tool Call: supplier_history_lookup]: Found supplier 'Finolex Cables Ltd' (ID: SUP006, Category: Cables & Conduit Pipes). Known aliases: ['FINOLEX CABLES', 'FINOLEX', 'FINO CABLE BLR'].",
+      "Step 4 [Tool Call: bank_row_search]: Found 1 candidate transaction(s) with exact amount \u20b914,632.00.",
+      "Step 5 [Match Confirmed]: Bank Txn TXN-20260910-06 on 2026-09-11 (Ref: UTR-ICI0911006) matches. Narration: 'NEFT/FINOLEX CABLES LTD/ICIC000091/00921'.",
+      "Step 6 [Autonomous Action]: Confidence HIGH (0.98). Auto-resolving and marking invoice as PAID in purchase ledger."
+    ],
+    "requires_human": false,
+    "action": "AUTO_POST_LEDGER",
+    "telegram_notification": null,
+    "email_draft": null
+  },
+  {
+    "invoice_id": "INV-107",
+    "invoice_number": "ANC-HB-3012",
+    "supplier_name": "Anchor by Panasonic",
+    "supplier_gstin": "29AAACA9981K1ZM",
+    "invoice_date": "2026-09-11",
+    "total_amount": 10502.0,
+    "case_type": "clean_single_match",
+    "description": "Clean match modular switches",
+    "decision": "AUTO_RESOLVE_PAID",
+    "confidence": "HIGH",
+    "confidence_score": 0.98,
+    "matched_txns": [
+      "TXN-20260911-07"
+    ],
+    "reconciliation_details": {
+      "bank_txn_id": "TXN-20260911-07",
+      "txn_date": "2026-09-12",
+      "ref_no": "UTR-KKB0912007",
+      "amount_matched": 10502.0,
+      "match_basis": "EXACT_AMOUNT_AND_NARRATION_ALIAS"
+    },
+    "reasoning_trace": [
+      "Step 1 [Intake]: Received Invoice ANC-HB-3012 (ID: INV-107) from 'Anchor by Panasonic' (GSTIN: 29AAACA9981K1ZM) for \u20b910,502.00 dated 2026-09-11.",
+      "Step 2 [Guardrails Passed]: GSTIN format valid, tax math verified, duplicate check passed.",
+      "Step 3 [Tool Call: supplier_history_lookup]: Found supplier 'Anchor by Panasonic' (ID: SUP007, Category: Modular Switches & Sockets). Known aliases: ['ANCHOR ELEC', 'PANASONIC ANCHOR', 'ANCHOR BY PANASONIC'].",
+      "Step 4 [Tool Call: bank_row_search]: Found 1 candidate transaction(s) with exact amount \u20b910,502.00.",
+      "Step 5 [Match Confirmed]: Bank Txn TXN-20260911-07 on 2026-09-12 (Ref: UTR-KKB0912007) matches. Narration: 'UPI/ANCHOR BY PANASONIC/KKBK00011/3012'.",
+      "Step 6 [Autonomous Action]: Confidence HIGH (0.98). Auto-resolving and marking invoice as PAID in purchase ledger."
+    ],
+    "requires_human": false,
+    "action": "AUTO_POST_LEDGER",
+    "telegram_notification": null,
+    "email_draft": null
+  },
+  {
+    "invoice_id": "INV-108",
+    "invoice_number": "SEI-BLR-5541",
+    "supplier_name": "Schneider Electric India",
+    "supplier_gstin": "29AAACS7766M1Z5",
+    "invoice_date": "2026-09-12",
+    "total_amount": 36580.0,
+    "case_type": "clean_single_match",
+    "description": "Clean match Schneider distribution boards",
+    "decision": "AUTO_RESOLVE_PAID",
+    "confidence": "HIGH",
+    "confidence_score": 0.98,
+    "matched_txns": [
+      "TXN-20260912-08"
+    ],
+    "reconciliation_details": {
+      "bank_txn_id": "TXN-20260912-08",
+      "txn_date": "2026-09-13",
+      "ref_no": "UTR-AXI0913008",
+      "amount_matched": 36580.0,
+      "match_basis": "EXACT_AMOUNT_AND_NARRATION_ALIAS"
+    },
+    "reasoning_trace": [
+      "Step 1 [Intake]: Received Invoice SEI-BLR-5541 (ID: INV-108) from 'Schneider Electric India' (GSTIN: 29AAACS7766M1Z5) for \u20b936,580.00 dated 2026-09-12.",
+      "Step 2 [Guardrails Passed]: GSTIN format valid, tax math verified, duplicate check passed.",
+      "Step 3 [Tool Call: supplier_history_lookup]: Found supplier 'Schneider Electric India' (ID: SUP008, Category: MCB & Distribution Boards). Known aliases: ['SCHNEIDER ELEC', 'SCHNEIDER IND', 'SCHNEIDER'].",
+      "Step 4 [Tool Call: bank_row_search]: Found 1 candidate transaction(s) with exact amount \u20b936,580.00.",
+      "Step 5 [Match Confirmed]: Bank Txn TXN-20260912-08 on 2026-09-13 (Ref: UTR-AXI0913008) matches. Narration: 'RTGS/SCHNEIDER ELECTRIC INDIA/AXIS0009/5541'.",
+      "Step 6 [Autonomous Action]: Confidence HIGH (0.98). Auto-resolving and marking invoice as PAID in purchase ledger."
+    ],
+    "requires_human": false,
+    "action": "AUTO_POST_LEDGER",
+    "telegram_notification": null,
+    "email_draft": null
+  },
+  {
+    "invoice_id": "INV-109",
+    "invoice_number": "GLS-26-8801",
+    "supplier_name": "Godrej Locking Solutions",
+    "supplier_gstin": "29AAACG4411C1ZY",
+    "invoice_date": "2026-09-13",
+    "total_amount": 16756.0,
+    "case_type": "clean_single_match",
+    "description": "Clean match Godrej mortise locks",
+    "decision": "AUTO_RESOLVE_PAID",
+    "confidence": "HIGH",
+    "confidence_score": 0.98,
+    "matched_txns": [
+      "TXN-20260913-09"
+    ],
+    "reconciliation_details": {
+      "bank_txn_id": "TXN-20260913-09",
+      "txn_date": "2026-09-14",
+      "ref_no": "UTR-COR0914009",
+      "amount_matched": 16756.0,
+      "match_basis": "EXACT_AMOUNT_AND_NARRATION_ALIAS"
+    },
+    "reasoning_trace": [
+      "Step 1 [Intake]: Received Invoice GLS-26-8801 (ID: INV-109) from 'Godrej Locking Solutions' (GSTIN: 29AAACG4411C1ZY) for \u20b916,756.00 dated 2026-09-13.",
+      "Step 2 [Guardrails Passed]: GSTIN format valid, tax math verified, duplicate check passed.",
+      "Step 3 [Tool Call: supplier_history_lookup]: Found supplier 'Godrej Locking Solutions' (ID: SUP009, Category: Door Hardware & Locks). Known aliases: ['GODREJ LOCKS', 'GODREJ AND BOYCE', 'GODREJ HARDWARE'].",
+      "Step 4 [Tool Call: bank_row_search]: Found 1 candidate transaction(s) with exact amount \u20b916,756.00.",
+      "Step 5 [Match Confirmed]: Bank Txn TXN-20260913-09 on 2026-09-14 (Ref: UTR-COR0914009) matches. Narration: 'NEFT/GODREJ LOCKING SOLUTIONS/CORP0001/8801'.",
+      "Step 6 [Autonomous Action]: Confidence HIGH (0.98). Auto-resolving and marking invoice as PAID in purchase ledger."
+    ],
+    "requires_human": false,
+    "action": "AUTO_POST_LEDGER",
+    "telegram_notification": null,
+    "email_draft": null
+  },
+  {
+    "invoice_id": "INV-110",
+    "invoice_number": "MTF-0492",
+    "supplier_name": "Mangalore Tools & Fasteners",
+    "supplier_gstin": "29AABCM5522E1Z3",
+    "invoice_date": "2026-09-14",
+    "total_amount": 9204.0,
+    "case_type": "clean_single_match",
+    "description": "Clean match drill bits & masonry anchors",
+    "decision": "AUTO_RESOLVE_PAID",
+    "confidence": "HIGH",
+    "confidence_score": 0.98,
+    "matched_txns": [
+      "TXN-20260914-10"
+    ],
+    "reconciliation_details": {
+      "bank_txn_id": "TXN-20260914-10",
+      "txn_date": "2026-09-15",
+      "ref_no": "UTR-SYN0915010",
+      "amount_matched": 9204.0,
+      "match_basis": "EXACT_AMOUNT_AND_NARRATION_ALIAS"
+    },
+    "reasoning_trace": [
+      "Step 1 [Intake]: Received Invoice MTF-0492 (ID: INV-110) from 'Mangalore Tools & Fasteners' (GSTIN: 29AABCM5522E1Z3) for \u20b99,204.00 dated 2026-09-14.",
+      "Step 2 [Guardrails Passed]: GSTIN format valid, tax math verified, duplicate check passed.",
+      "Step 3 [Tool Call: supplier_history_lookup]: Found supplier 'Mangalore Tools & Fasteners' (ID: SUP010, Category: Power Tools & Drill Bits). Known aliases: ['MLORE TOOLS', 'MANGALORE FASTENERS', 'MANGALORE TOOLS'].",
+      "Step 4 [Tool Call: bank_row_search]: Found 1 candidate transaction(s) with exact amount \u20b99,204.00.",
+      "Step 5 [Match Confirmed]: Bank Txn TXN-20260914-10 on 2026-09-15 (Ref: UTR-SYN0915010) matches. Narration: 'IMPS/MANGALORE TOOLS & FASTENERS/SYNB001/0492'.",
+      "Step 6 [Autonomous Action]: Confidence HIGH (0.98). Auto-resolving and marking invoice as PAID in purchase ledger."
+    ],
+    "requires_human": false,
+    "action": "AUTO_POST_LEDGER",
+    "telegram_notification": null,
+    "email_draft": null
+  },
+  {
+    "invoice_id": "INV-111",
+    "invoice_number": "STC/26/1088",
+    "supplier_name": "Sharma Trading Company",
+    "supplier_gstin": "29AABCS1429B1Z2",
+    "invoice_date": "2026-09-15",
+    "total_amount": 28320.0,
+    "case_type": "ambiguous_name_variant",
+    "description": "Bank row has narration 'NEFT/SHARMA TRDRS BLR/AXIS00091' with no exact match on 'Sharma Trading Company'",
+    "decision": "AUTO_RESOLVE_PAID",
+    "confidence": "HIGH",
+    "confidence_score": 0.98,
+    "matched_txns": [
+      "TXN-20260916-11"
+    ],
+    "reconciliation_details": {
+      "bank_txn_id": "TXN-20260916-11",
+      "txn_date": "2026-09-17",
+      "ref_no": "UTR-AXI0917011",
+      "amount_matched": 28320.0,
+      "match_basis": "EXACT_AMOUNT_AND_NARRATION_ALIAS"
+    },
+    "reasoning_trace": [
+      "Step 1 [Intake]: Received Invoice STC/26/1088 (ID: INV-111) from 'Sharma Trading Company' (GSTIN: 29AABCS1429B1Z2) for \u20b928,320.00 dated 2026-09-15.",
+      "Step 2 [Guardrails Passed]: GSTIN format valid, tax math verified, duplicate check passed.",
+      "Step 3 [Tool Call: supplier_history_lookup]: Found supplier 'Sharma Trading Company' (ID: SUP001, Category: Switches & Wiring Accessories). Known aliases: ['SHARMA TRDRS', 'SHARMA TRADING', 'SHARMA TRDRS BLR', 'SHARMA TRAD CO'].",
+      "Step 4 [Tool Call: bank_row_search]: Found 1 candidate transaction(s) with exact amount \u20b928,320.00.",
+      "Step 4b [Tool Call: corrections_memory]: Matched bank narration against prior human approval: 'SHARMA TRDRS BLR' -> 'Sharma Trading Company'.",
+      "Step 5 [Match Confirmed]: Bank Txn TXN-20260916-11 on 2026-09-17 (Ref: UTR-AXI0917011) matches. Narration: 'NEFT/SHARMA TRDRS BLR/AXIS00091/SETTL'.",
+      "Step 6 [Autonomous Action]: Confidence HIGH (0.98). Auto-resolving and marking invoice as PAID in purchase ledger."
+    ],
+    "requires_human": false,
+    "action": "AUTO_POST_LEDGER",
+    "telegram_notification": null,
+    "email_draft": null
+  },
+  {
+    "invoice_id": "INV-112",
+    "invoice_number": "POL-99042",
+    "supplier_name": "Polycab Wires & Cables Ltd",
+    "supplier_gstin": "29AAACP2194D1ZK",
+    "invoice_date": "2026-09-16",
+    "total_amount": 23010.0,
+    "case_type": "ambiguous_name_variant",
+    "description": "Bank row narration says 'RTGS/POLYWIRES/CBIN0280' instead of full company name",
+    "decision": "AUTO_RESOLVE_PAID",
+    "confidence": "HIGH",
+    "confidence_score": 0.98,
+    "matched_txns": [
+      "TXN-20260917-12"
+    ],
+    "reconciliation_details": {
+      "bank_txn_id": "TXN-20260917-12",
+      "txn_date": "2026-09-18",
+      "ref_no": "UTR-CBI0918012",
+      "amount_matched": 23010.0,
+      "match_basis": "EXACT_AMOUNT_AND_NARRATION_ALIAS"
+    },
+    "reasoning_trace": [
+      "Step 1 [Intake]: Received Invoice POL-99042 (ID: INV-112) from 'Polycab Wires & Cables Ltd' (GSTIN: 29AAACP2194D1ZK) for \u20b923,010.00 dated 2026-09-16.",
+      "Step 2 [Guardrails Passed]: GSTIN format valid, tax math verified, duplicate check passed.",
+      "Step 3 [Tool Call: supplier_history_lookup]: Found supplier 'Polycab Wires & Cables Ltd' (ID: SUP002, Category: Wires & Industrial Cables). Known aliases: ['POLYCAB WIRES', 'POLYWIRES', 'POLYCAB INDIA', 'POLYCAB LTD'].",
+      "Step 4 [Tool Call: bank_row_search]: Found 1 candidate transaction(s) with exact amount \u20b923,010.00.",
+      "Step 4b [Tool Call: corrections_memory]: Matched bank narration against prior human approval: 'POLYWIRES' -> 'Polycab Wires & Cables Ltd'.",
+      "Step 5 [Match Confirmed]: Bank Txn TXN-20260917-12 on 2026-09-18 (Ref: UTR-CBI0918012) matches. Narration: 'RTGS/POLYWIRES/CBIN0280/WIREPYMT'.",
+      "Step 6 [Autonomous Action]: Confidence HIGH (0.98). Auto-resolving and marking invoice as PAID in purchase ledger."
+    ],
+    "requires_human": false,
+    "action": "AUTO_POST_LEDGER",
+    "telegram_notification": null,
+    "email_draft": null
+  },
+  {
+    "invoice_id": "INV-113",
+    "invoice_number": "HAV-KA-4520",
+    "supplier_name": "Havells India Limited",
+    "supplier_gstin": "29AAACH1820F1ZX",
+    "invoice_date": "2026-09-17",
+    "total_amount": 44840.0,
+    "case_type": "ambiguous_name_variant",
+    "description": "Bank row narration says 'HAVELLS KA CLG CHQ 7712' matching alias",
+    "decision": "AUTO_RESOLVE_PAID",
+    "confidence": "HIGH",
+    "confidence_score": 0.98,
+    "matched_txns": [
+      "TXN-20260918-13"
+    ],
+    "reconciliation_details": {
+      "bank_txn_id": "TXN-20260918-13",
+      "txn_date": "2026-09-19",
+      "ref_no": "UTR-CHQ0919013",
+      "amount_matched": 44840.0,
+      "match_basis": "EXACT_AMOUNT_AND_NARRATION_ALIAS"
+    },
+    "reasoning_trace": [
+      "Step 1 [Intake]: Received Invoice HAV-KA-4520 (ID: INV-113) from 'Havells India Limited' (GSTIN: 29AAACH1820F1ZX) for \u20b944,840.00 dated 2026-09-17.",
+      "Step 2 [Guardrails Passed]: GSTIN format valid, tax math verified, duplicate check passed.",
+      "Step 3 [Tool Call: supplier_history_lookup]: Found supplier 'Havells India Limited' (ID: SUP003, Category: Fans, Lighting & Circuit Breakers). Known aliases: ['HAVELLS IND', 'HAVELLS INDIA LTD', 'HAVELLS KA'].",
+      "Step 4 [Tool Call: bank_row_search]: Found 1 candidate transaction(s) with exact amount \u20b944,840.00.",
+      "Step 4b [Tool Call: corrections_memory]: Matched bank narration against prior human approval: 'HAVELLS KA' -> 'Havells India Limited'.",
+      "Step 5 [Match Confirmed]: Bank Txn TXN-20260918-13 on 2026-09-19 (Ref: UTR-CHQ0919013) matches. Narration: 'HAVELLS KA CLG CHQ 7712/MANIPAL BR'.",
+      "Step 6 [Autonomous Action]: Confidence HIGH (0.98). Auto-resolving and marking invoice as PAID in purchase ledger."
+    ],
+    "requires_human": false,
+    "action": "AUTO_POST_LEDGER",
+    "telegram_notification": null,
+    "email_draft": null
+  },
+  {
+    "invoice_id": "INV-114",
+    "invoice_number": "SUP-UD-0988",
+    "supplier_name": "Supreme Industries Ltd",
+    "supplier_gstin": "29AAACS6328P1Z8",
+    "invoice_date": "2026-09-18",
+    "total_amount": 18880.0,
+    "case_type": "ambiguous_name_variant",
+    "description": "Bank row narration says 'NEFT/SUPREME PLAST/HDFC0012'",
+    "decision": "AUTO_RESOLVE_PAID",
+    "confidence": "HIGH",
+    "confidence_score": 0.98,
+    "matched_txns": [
+      "TXN-20260919-14"
+    ],
+    "reconciliation_details": {
+      "bank_txn_id": "TXN-20260919-14",
+      "txn_date": "2026-09-20",
+      "ref_no": "UTR-HDF0920014",
+      "amount_matched": 18880.0,
+      "match_basis": "EXACT_AMOUNT_AND_NARRATION_ALIAS"
+    },
+    "reasoning_trace": [
+      "Step 1 [Intake]: Received Invoice SUP-UD-0988 (ID: INV-114) from 'Supreme Industries Ltd' (GSTIN: 29AAACS6328P1Z8) for \u20b918,880.00 dated 2026-09-18.",
+      "Step 2 [Guardrails Passed]: GSTIN format valid, tax math verified, duplicate check passed.",
+      "Step 3 [Tool Call: supplier_history_lookup]: Found supplier 'Supreme Industries Ltd' (ID: SUP004, Category: PVC Pipes & Plumbing Fittings). Known aliases: ['SUPREME IND', 'SUPREME PIPES', 'SUPREME PLAST'].",
+      "Step 4 [Tool Call: bank_row_search]: Found 1 candidate transaction(s) with exact amount \u20b918,880.00.",
+      "Step 4b [Tool Call: corrections_memory]: Matched bank narration against prior human approval: 'SUPREME PLAST' -> 'Supreme Industries Ltd'.",
+      "Step 5 [Match Confirmed]: Bank Txn TXN-20260919-14 on 2026-09-20 (Ref: UTR-HDF0920014) matches. Narration: 'NEFT/SUPREME PLAST/HDFC0012/FITTINGS'.",
+      "Step 6 [Autonomous Action]: Confidence HIGH (0.98). Auto-resolving and marking invoice as PAID in purchase ledger."
+    ],
+    "requires_human": false,
+    "action": "AUTO_POST_LEDGER",
+    "telegram_notification": null,
+    "email_draft": null
+  },
+  {
+    "invoice_id": "INV-115",
+    "invoice_number": "STC/26/1042",
+    "supplier_name": "Sharma Trading Company",
+    "supplier_gstin": "29AABCS1429B1Z2",
+    "invoice_date": "2026-09-19",
+    "total_amount": 28000.0,
+    "case_type": "ambiguous_combined_payment",
+    "description": "Part 1 of combined payment: Rs 28,000",
+    "decision": "COMBINED_PAYMENT_SUGGESTED",
+    "confidence": "MEDIUM",
+    "confidence_score": 0.8,
+    "matched_txns": [
+      "TXN-20260920-15"
+    ],
+    "reconciliation_details": {
+      "bank_txn_id": "TXN-20260920-15",
+      "combined_amount": 47200.0,
+      "peer_invoice_id": "INV-116",
+      "peer_invoice_number": "STC/26/1043",
+      "match_basis": "SUBSET_SUM_COMBINED_PAYMENT"
+    },
+    "reasoning_trace": [
+      "Step 1 [Intake]: Received Invoice STC/26/1042 (ID: INV-115) from 'Sharma Trading Company' (GSTIN: 29AABCS1429B1Z2) for \u20b928,000.00 dated 2026-09-19.",
+      "Step 2 [Guardrails Passed]: GSTIN format valid, tax math verified, duplicate check passed.",
+      "Step 3 [Tool Call: supplier_history_lookup]: Found supplier 'Sharma Trading Company' (ID: SUP001, Category: Switches & Wiring Accessories). Known aliases: ['SHARMA TRDRS', 'SHARMA TRADING', 'SHARMA TRDRS BLR', 'SHARMA TRAD CO'].",
+      "Step 4 [Tool Call: bank_row_search]: No single bank row matched exact amount \u20b928,000.00.",
+      "Step 5 [Investigation: Multi-invoice lookup]: Searching for open invoices from same supplier to test combined payment hypothesis.",
+      "Step 6 [Combined Payment Detected]: Bank Txn TXN-20260920-15 for \u20b947,200.00 on 2026-09-21 matches combination of Invoice STC/26/1042 (\u20b928,000.00) + Invoice STC/26/1043 (\u20b919,200.00).",
+      "Step 7 [Routing]: Confidence MEDIUM (0.80). Generating Telegram confirmation prompt for Suresh Bhat (Accountant) to approve combined match."
+    ],
+    "requires_human": true,
+    "action": "SEND_TELEGRAM_APPROVAL",
+    "telegram_notification": {
+      "text": "\ud83d\udccb *Combined Payment Match Suggested*\nSupplier: *Sharma Trading Company*\nBank Txn: \u20b947,200.00 on 2026-09-21 (UTR-AXI0921015)\n\nCovers 2 Invoices:\n\u2022 STC/26/1042: \u20b928,000.00\n\u2022 STC/26/1043: \u20b919,200.00\n\nApprove combined reconciliation?",
+      "buttons": [
+        "Approve Combined Match",
+        "Reject / Investigate"
+      ]
+    },
+    "email_draft": null
+  },
+  {
+    "invoice_id": "INV-116",
+    "invoice_number": "STC/26/1043",
+    "supplier_name": "Sharma Trading Company",
+    "supplier_gstin": "29AABCS1429B1Z2",
+    "invoice_date": "2026-09-19",
+    "total_amount": 19200.0,
+    "case_type": "ambiguous_combined_payment",
+    "description": "Part 2 of combined payment: Rs 19,200 (Total in Bank = 47,200)",
+    "decision": "COMBINED_PAYMENT_SUGGESTED",
+    "confidence": "MEDIUM",
+    "confidence_score": 0.8,
+    "matched_txns": [
+      "TXN-20260920-15"
+    ],
+    "reconciliation_details": {
+      "bank_txn_id": "TXN-20260920-15",
+      "combined_amount": 47200.0,
+      "peer_invoice_id": "INV-115",
+      "peer_invoice_number": "STC/26/1042",
+      "match_basis": "SUBSET_SUM_COMBINED_PAYMENT"
+    },
+    "reasoning_trace": [
+      "Step 1 [Intake]: Received Invoice STC/26/1043 (ID: INV-116) from 'Sharma Trading Company' (GSTIN: 29AABCS1429B1Z2) for \u20b919,200.00 dated 2026-09-19.",
+      "Step 2 [Guardrails Passed]: GSTIN format valid, tax math verified, duplicate check passed.",
+      "Step 3 [Tool Call: supplier_history_lookup]: Found supplier 'Sharma Trading Company' (ID: SUP001, Category: Switches & Wiring Accessories). Known aliases: ['SHARMA TRDRS', 'SHARMA TRADING', 'SHARMA TRDRS BLR', 'SHARMA TRAD CO'].",
+      "Step 4 [Tool Call: bank_row_search]: No single bank row matched exact amount \u20b919,200.00.",
+      "Step 5 [Investigation: Multi-invoice lookup]: Searching for open invoices from same supplier to test combined payment hypothesis.",
+      "Step 6 [Combined Payment Detected]: Bank Txn TXN-20260920-15 for \u20b947,200.00 on 2026-09-21 matches combination of Invoice STC/26/1043 (\u20b919,200.00) + Invoice STC/26/1042 (\u20b928,000.00).",
+      "Step 7 [Routing]: Confidence MEDIUM (0.80). Generating Telegram confirmation prompt for Suresh Bhat (Accountant) to approve combined match."
+    ],
+    "requires_human": true,
+    "action": "SEND_TELEGRAM_APPROVAL",
+    "telegram_notification": {
+      "text": "\ud83d\udccb *Combined Payment Match Suggested*\nSupplier: *Sharma Trading Company*\nBank Txn: \u20b947,200.00 on 2026-09-21 (UTR-AXI0921015)\n\nCovers 2 Invoices:\n\u2022 STC/26/1043: \u20b919,200.00\n\u2022 STC/26/1042: \u20b928,000.00\n\nApprove combined reconciliation?",
+      "buttons": [
+        "Approve Combined Match",
+        "Reject / Investigate"
+      ]
+    },
+    "email_draft": null
+  },
+  {
+    "invoice_id": "INV-117",
+    "invoice_number": "APL-MNG-801",
+    "supplier_name": "Asian Paints Limited",
+    "supplier_gstin": "29AAACA2155H1ZV",
+    "invoice_date": "2026-09-20",
+    "total_amount": 50000.0,
+    "case_type": "ambiguous_combined_payment",
+    "description": "Part of Rs 85,000 combined payment for Asian Paints",
+    "decision": "COMBINED_PAYMENT_SUGGESTED",
+    "confidence": "MEDIUM",
+    "confidence_score": 0.8,
+    "matched_txns": [
+      "TXN-20260921-16"
+    ],
+    "reconciliation_details": {
+      "bank_txn_id": "TXN-20260921-16",
+      "combined_amount": 85000.0,
+      "peer_invoice_id": "INV-118",
+      "peer_invoice_number": "APL-MNG-802",
+      "match_basis": "SUBSET_SUM_COMBINED_PAYMENT"
+    },
+    "reasoning_trace": [
+      "Step 1 [Intake]: Received Invoice APL-MNG-801 (ID: INV-117) from 'Asian Paints Limited' (GSTIN: 29AAACA2155H1ZV) for \u20b950,000.00 dated 2026-09-20.",
+      "Step 2 [Guardrails Passed]: GSTIN format valid, tax math verified, duplicate check passed.",
+      "Step 3 [Tool Call: supplier_history_lookup]: Found supplier 'Asian Paints Limited' (ID: SUP005, Category: Paints, Primers & Waterproofing). Known aliases: ['ASIAN PAINTS', 'ASIAN PAINTS LTD', 'APL BLR DEPOT'].",
+      "Step 4 [Tool Call: bank_row_search]: Found 1 candidate transaction(s) with exact amount \u20b950,000.00.",
+      "Step 4 [Tool Call: bank_row_search]: No single bank row matched exact amount \u20b950,000.00.",
+      "Step 5 [Investigation: Multi-invoice lookup]: Searching for open invoices from same supplier to test combined payment hypothesis.",
+      "Step 6 [Combined Payment Detected]: Bank Txn TXN-20260921-16 for \u20b985,000.00 on 2026-09-22 matches combination of Invoice APL-MNG-801 (\u20b950,000.00) + Invoice APL-MNG-802 (\u20b935,000.00).",
+      "Step 7 [Routing]: Confidence MEDIUM (0.80). Generating Telegram confirmation prompt for Suresh Bhat (Accountant) to approve combined match."
+    ],
+    "requires_human": true,
+    "action": "SEND_TELEGRAM_APPROVAL",
+    "telegram_notification": {
+      "text": "\ud83d\udccb *Combined Payment Match Suggested*\nSupplier: *Asian Paints Limited*\nBank Txn: \u20b985,000.00 on 2026-09-22 (UTR-SBI0922016)\n\nCovers 2 Invoices:\n\u2022 APL-MNG-801: \u20b950,000.00\n\u2022 APL-MNG-802: \u20b935,000.00\n\nApprove combined reconciliation?",
+      "buttons": [
+        "Approve Combined Match",
+        "Reject / Investigate"
+      ]
+    },
+    "email_draft": null
+  },
+  {
+    "invoice_id": "INV-118",
+    "invoice_number": "APL-MNG-802",
+    "supplier_name": "Asian Paints Limited",
+    "supplier_gstin": "29AAACA2155H1ZV",
+    "invoice_date": "2026-09-20",
+    "total_amount": 35000.0,
+    "case_type": "ambiguous_combined_payment",
+    "description": "Second part of Rs 85,000 combined payment for Asian Paints",
+    "decision": "COMBINED_PAYMENT_SUGGESTED",
+    "confidence": "MEDIUM",
+    "confidence_score": 0.8,
+    "matched_txns": [
+      "TXN-20260921-16"
+    ],
+    "reconciliation_details": {
+      "bank_txn_id": "TXN-20260921-16",
+      "combined_amount": 85000.0,
+      "peer_invoice_id": "INV-117",
+      "peer_invoice_number": "APL-MNG-801",
+      "match_basis": "SUBSET_SUM_COMBINED_PAYMENT"
+    },
+    "reasoning_trace": [
+      "Step 1 [Intake]: Received Invoice APL-MNG-802 (ID: INV-118) from 'Asian Paints Limited' (GSTIN: 29AAACA2155H1ZV) for \u20b935,000.00 dated 2026-09-20.",
+      "Step 2 [Guardrails Passed]: GSTIN format valid, tax math verified, duplicate check passed.",
+      "Step 3 [Tool Call: supplier_history_lookup]: Found supplier 'Asian Paints Limited' (ID: SUP005, Category: Paints, Primers & Waterproofing). Known aliases: ['ASIAN PAINTS', 'ASIAN PAINTS LTD', 'APL BLR DEPOT'].",
+      "Step 4 [Tool Call: bank_row_search]: No single bank row matched exact amount \u20b935,000.00.",
+      "Step 5 [Investigation: Multi-invoice lookup]: Searching for open invoices from same supplier to test combined payment hypothesis.",
+      "Step 6 [Combined Payment Detected]: Bank Txn TXN-20260921-16 for \u20b985,000.00 on 2026-09-22 matches combination of Invoice APL-MNG-802 (\u20b935,000.00) + Invoice APL-MNG-801 (\u20b950,000.00).",
+      "Step 7 [Routing]: Confidence MEDIUM (0.80). Generating Telegram confirmation prompt for Suresh Bhat (Accountant) to approve combined match."
+    ],
+    "requires_human": true,
+    "action": "SEND_TELEGRAM_APPROVAL",
+    "telegram_notification": {
+      "text": "\ud83d\udccb *Combined Payment Match Suggested*\nSupplier: *Asian Paints Limited*\nBank Txn: \u20b985,000.00 on 2026-09-22 (UTR-SBI0922016)\n\nCovers 2 Invoices:\n\u2022 APL-MNG-802: \u20b935,000.00\n\u2022 APL-MNG-801: \u20b950,000.00\n\nApprove combined reconciliation?",
+      "buttons": [
+        "Approve Combined Match",
+        "Reject / Investigate"
+      ]
+    },
+    "email_draft": null
+  },
+  {
+    "invoice_id": "INV-119",
+    "invoice_number": "ANC-HB-3199",
+    "supplier_name": "Anchor by Panasonic",
+    "supplier_gstin": "29AAACA9981K1ZM",
+    "invoice_date": "2026-09-21",
+    "total_amount": 50000.0,
+    "case_type": "ambiguous_partial_payment",
+    "description": "Invoice 50,000 with partial bank payment of 30,000 (balance 20,000 due)",
+    "decision": "PARTIAL_PAYMENT_DETECTED",
+    "confidence": "MEDIUM",
+    "confidence_score": 0.78,
+    "matched_txns": [
+      "TXN-20260922-17"
+    ],
+    "reconciliation_details": {
+      "bank_txn_id": "TXN-20260922-17",
+      "paid_amount": 30000.0,
+      "balance_due": 20000.0,
+      "match_basis": "PARTIAL_PAYMENT_NARRATION"
+    },
+    "reasoning_trace": [
+      "Step 1 [Intake]: Received Invoice ANC-HB-3199 (ID: INV-119) from 'Anchor by Panasonic' (GSTIN: 29AAACA9981K1ZM) for \u20b950,000.00 dated 2026-09-21.",
+      "Step 2 [Guardrails Passed]: GSTIN format valid, tax math verified, duplicate check passed.",
+      "Step 3 [Tool Call: supplier_history_lookup]: Found supplier 'Anchor by Panasonic' (ID: SUP007, Category: Modular Switches & Sockets). Known aliases: ['ANCHOR ELEC', 'PANASONIC ANCHOR', 'ANCHOR BY PANASONIC'].",
+      "Step 4 [Tool Call: bank_row_search]: Found 1 candidate transaction(s) with exact amount \u20b950,000.00.",
+      "Step 4 [Tool Call: bank_row_search]: No single bank row matched exact amount \u20b950,000.00.",
+      "Step 5 [Investigation: Multi-invoice lookup]: Searching for open invoices from same supplier to test combined payment hypothesis.",
+      "Step 6 [Partial Payment Detected]: Bank Txn TXN-20260922-17 for \u20b930,000.00 indicates partial payment for \u20b950,000.00 invoice. Remaining balance: \u20b920,000.00."
+    ],
+    "requires_human": true,
+    "action": "SEND_TELEGRAM_APPROVAL",
+    "telegram_notification": {
+      "text": "\u2696\ufe0f *Partial Payment Detected*\nSupplier: *Anchor by Panasonic*\nInvoice: ANC-HB-3199 (Total: \u20b950,000.00)\nPaid: \u20b930,000.00 on 2026-09-23\nRemaining Balance: *\u20b920,000.00*\n\nRecord partial payment in ledger?",
+      "buttons": [
+        "Approve Partial Payment",
+        "Flag Disputed"
+      ]
+    },
+    "email_draft": null
+  },
+  {
+    "invoice_id": "INV-120",
+    "invoice_number": "GLS-26-8910",
+    "supplier_name": "Godrej Locking Solutions",
+    "supplier_gstin": "29AAACG4411C1ZY",
+    "invoice_date": "2026-09-22",
+    "total_amount": 25000.0,
+    "case_type": "ambiguous_discount_difference",
+    "description": "2% cash settlement discount: Invoice Rs 25,000 vs Bank Rs 24,500",
+    "decision": "CASH_DISCOUNT_SETTLEMENT",
+    "confidence": "MEDIUM",
+    "confidence_score": 0.82,
+    "matched_txns": [
+      "TXN-20260923-18"
+    ],
+    "reconciliation_details": {
+      "bank_txn_id": "TXN-20260923-18",
+      "paid_amount": 24500.0,
+      "discount_amount": 500.0,
+      "match_basis": "PROMPT_PAYMENT_DISCOUNT_TOLERANCE"
+    },
+    "reasoning_trace": [
+      "Step 1 [Intake]: Received Invoice GLS-26-8910 (ID: INV-120) from 'Godrej Locking Solutions' (GSTIN: 29AAACG4411C1ZY) for \u20b925,000.00 dated 2026-09-22.",
+      "Step 2 [Guardrails Passed]: GSTIN format valid, tax math verified, duplicate check passed.",
+      "Step 3 [Tool Call: supplier_history_lookup]: Found supplier 'Godrej Locking Solutions' (ID: SUP009, Category: Door Hardware & Locks). Known aliases: ['GODREJ LOCKS', 'GODREJ AND BOYCE', 'GODREJ HARDWARE'].",
+      "Step 4 [Tool Call: bank_row_search]: No single bank row matched exact amount \u20b925,000.00.",
+      "Step 5 [Investigation: Multi-invoice lookup]: Searching for open invoices from same supplier to test combined payment hypothesis.",
+      "Step 6 [Prompt Cash Discount / TDS Variance]: Bank payment \u20b924,500.00 is within 2.0% discount of invoice \u20b925,000.00. Corroborated by memory policy."
+    ],
+    "requires_human": true,
+    "action": "SEND_TELEGRAM_APPROVAL",
+    "telegram_notification": {
+      "text": "\ud83c\udff7\ufe0f *Cash Settlement Discount Variance*\nSupplier: *Godrej Locking Solutions*\nInvoice Amount: \u20b925,000.00\nBank Debit: \u20b924,500.00 (2.0% settlement discount)\n\nApprove settlement discount adjustment?",
+      "buttons": [
+        "Approve Discount Adjustment",
+        "Reject"
+      ]
+    },
+    "email_draft": null
+  },
+  {
+    "invoice_id": "INV-121",
+    "invoice_number": "STC/26/1041",
+    "supplier_name": "Sharma Trading Company",
+    "supplier_gstin": "29AABCS1429B1Z2",
+    "invoice_date": "2026-09-02",
+    "total_amount": 17700.0,
+    "case_type": "guardrail_exact_duplicate",
+    "description": "Exact duplicate submission of INV-101 forwarded via Telegram",
+    "decision": "BLOCKED_BY_GUARDRAIL",
+    "confidence": "ZERO",
+    "confidence_score": 0.0,
+    "matched_txns": [],
+    "reconciliation_details": {},
+    "reasoning_trace": [
+      "Step 1 [Intake]: Received Invoice STC/26/1041 (ID: INV-121) from 'Sharma Trading Company' (GSTIN: 29AABCS1429B1Z2) for \u20b917,700.00 dated 2026-09-02.",
+      "Step 2 [Guardrail Violation]: Blocked by Layer 2 rule checks: Duplicate invoice detected: Invoice 'STC/26/1041' from GSTIN '29AABCS1429B1Z2' was already processed."
+    ],
+    "requires_human": true,
+    "action": "ESCALATE_TO_ACCOUNTANT",
+    "telegram_notification": {
+      "text": "\u26a0\ufe0f *Guardrail Alert: Invoice STC/26/1041 Blocked*\nSupplier: Sharma Trading Company\nAmount: \u20b917,700.00\nReason: Duplicate invoice detected: Invoice 'STC/26/1041' from GSTIN '29AABCS1429B1Z2' was already processed",
+      "buttons": [
+        "Acknowledge",
+        "Edit Manually"
+      ]
+    },
+    "email_draft": null
+  },
+  {
+    "invoice_id": "INV-122",
+    "invoice_number": "LWM-0012",
+    "supplier_name": "Local Wire Mart",
+    "supplier_gstin": "29INVALID12345",
+    "invoice_date": "2026-09-24",
+    "total_amount": 11800.0,
+    "case_type": "guardrail_invalid_gstin",
+    "description": "Invalid GSTIN format violating Indian 15-char alphanumeric check",
+    "decision": "BLOCKED_BY_GUARDRAIL",
+    "confidence": "ZERO",
+    "confidence_score": 0.0,
+    "matched_txns": [],
+    "reconciliation_details": {},
+    "reasoning_trace": [
+      "Step 1 [Intake]: Received Invoice LWM-0012 (ID: INV-122) from 'Local Wire Mart' (GSTIN: 29INVALID12345) for \u20b911,800.00 dated 2026-09-24.",
+      "Step 2 [Guardrail Violation]: Blocked by Layer 2 rule checks: Invalid GSTIN length 14 (expected 15 characters)."
+    ],
+    "requires_human": true,
+    "action": "ESCALATE_TO_ACCOUNTANT",
+    "telegram_notification": {
+      "text": "\u26a0\ufe0f *Guardrail Alert: Invoice LWM-0012 Blocked*\nSupplier: Local Wire Mart\nAmount: \u20b911,800.00\nReason: Invalid GSTIN length 14 (expected 15 characters)",
+      "buttons": [
+        "Acknowledge",
+        "Edit Manually"
+      ]
+    },
+    "email_draft": null
+  },
+  {
+    "invoice_id": "INV-123",
+    "invoice_number": "FIN-00999",
+    "supplier_name": "Finolex Cables Ltd",
+    "supplier_gstin": "29AAACF1234L1ZN",
+    "invoice_date": "2026-09-25",
+    "total_amount": 21200.0,
+    "case_type": "guardrail_tax_arithmetic_mismatch",
+    "description": "Tax arithmetic mismatch (6% charged instead of standard 18% slab)",
+    "decision": "BLOCKED_BY_GUARDRAIL",
+    "confidence": "ZERO",
+    "confidence_score": 0.0,
+    "matched_txns": [],
+    "reconciliation_details": {},
+    "reasoning_trace": [
+      "Step 1 [Intake]: Received Invoice FIN-00999 (ID: INV-123) from 'Finolex Cables Ltd' (GSTIN: 29AAACF1234L1ZN) for \u20b921,200.00 dated 2026-09-25.",
+      "Step 2 [Guardrail Violation]: Blocked by Layer 2 rule checks: Invalid GST rate slab: Effective tax rate is 6.0%, which does not match any standard Indian GST slab (0%, 5%, 12%, 18%, 28%)."
+    ],
+    "requires_human": true,
+    "action": "ESCALATE_TO_ACCOUNTANT",
+    "telegram_notification": {
+      "text": "\u26a0\ufe0f *Guardrail Alert: Invoice FIN-00999 Blocked*\nSupplier: Finolex Cables Ltd\nAmount: \u20b921,200.00\nReason: Invalid GST rate slab: Effective tax rate is 6.0%, which does not match any standard Indian GST slab (0%, 5%, 12%, 18%, 28%)",
+      "buttons": [
+        "Acknowledge",
+        "Edit Manually"
+      ]
+    },
+    "email_draft": null
+  },
+  {
+    "invoice_id": "INV-124",
+    "invoice_number": "SEI-BLR-5890",
+    "supplier_name": "Schneider Electric India",
+    "supplier_gstin": "29AAACS7766M1Z5",
+    "invoice_date": "2026-09-26",
+    "total_amount": 76700.0,
+    "case_type": "unpaid_due_soon",
+    "description": "No bank payment found, due in 10 days, agent drafts payment voucher / query",
+    "decision": "UNPAID_EMAIL_DRAFTED",
+    "confidence": "HIGH",
+    "confidence_score": 0.9,
+    "matched_txns": [],
+    "reconciliation_details": {},
+    "reasoning_trace": [
+      "Step 1 [Intake]: Received Invoice SEI-BLR-5890 (ID: INV-124) from 'Schneider Electric India' (GSTIN: 29AAACS7766M1Z5) for \u20b976,700.00 dated 2026-09-26.",
+      "Step 2 [Guardrails Passed]: GSTIN format valid, tax math verified, duplicate check passed.",
+      "Step 3 [Tool Call: supplier_history_lookup]: Found supplier 'Schneider Electric India' (ID: SUP008, Category: MCB & Distribution Boards). Known aliases: ['SCHNEIDER ELEC', 'SCHNEIDER IND', 'SCHNEIDER'].",
+      "Step 4 [Tool Call: bank_row_search]: No single bank row matched exact amount \u20b976,700.00.",
+      "Step 5 [Investigation: Multi-invoice lookup]: Searching for open invoices from same supplier to test combined payment hypothesis.",
+      "Step 6 [No Matching Bank Payment]: No debit found for \u20b976,700.00 from Schneider Electric India.",
+      "Step 7 [Proactive Action: Draft Supplier Email]: Invoice is UNPAID. Preparing drafted follow-up email gated by human approval."
+    ],
+    "requires_human": true,
+    "action": "PROMPT_ACCOUNTANT_TO_REVIEW_EMAIL_DRAFT",
+    "telegram_notification": {
+      "text": "\u2709\ufe0f *Follow-up Email Drafted for Approval*\nSupplier: Schneider Electric India\nInvoice: SEI-BLR-5890 (\u20b976,700.00)\nStatus: UNPAID\n\nDraft created and held in queue. Approve sending?",
+      "buttons": [
+        "Review & Send Email",
+        "Mark for Offline Payment",
+        "Dismiss"
+      ]
+    },
+    "email_draft": {
+      "draft_id": "DRAFT-001",
+      "created_at": "2026-10-05 21:37:18",
+      "to": "in.orders@se.com",
+      "subject": "Inquiry regarding Invoice SEI-BLR-5890 / Payment Status - Sri Krishna Electricals Manipal",
+      "body": "Dear Schneider Electric India Accounts Team,\n\nWe refer to Invoice No. SEI-BLR-5890 dated for \u20b976,700.00.\nOur automated reconciliation system noted the following query:\n'No matching bank debit identified as of current reconciliation run. Due date: 2026-10-15.'.\n\nCould you please confirm the payment UTR / bank reference or provide an updated statement of account?\n\nWarm regards,\nAccounts Department\nSri Krishna Electricals & Hardware, Tiger Circle, Manipal - 576104\nPhone: +91 98450 12345",
+      "status": "PENDING_HUMAN_APPROVAL",
+      "safety_gate": "HOLD_FOR_ACCOUNTANT_APPROVAL"
+    }
+  },
+  {
+    "invoice_id": "INV-125",
+    "invoice_number": "UNKNOWN-99",
+    "supplier_name": "Unknown Crushed Stone Supplier",
+    "supplier_gstin": "29AABCU0000Z1ZZ",
+    "invoice_date": "2026-09-27",
+    "total_amount": 12075.0,
+    "case_type": "low_confidence_unrecognized",
+    "description": "Unregistered supplier with blurry photo, low confidence extraction",
+    "decision": "UNRECOGNIZED_SUPPLIER",
+    "confidence": "LOW",
+    "confidence_score": 0.35,
+    "matched_txns": [],
+    "reconciliation_details": {},
+    "reasoning_trace": [
+      "Step 1 [Intake]: Received Invoice UNKNOWN-99 (ID: INV-125) from 'Unknown Crushed Stone Supplier' (GSTIN: 29AABCU0000Z1ZZ) for \u20b912,075.00 dated 2026-09-27.",
+      "Step 2 [Guardrails Passed]: GSTIN format valid, tax math verified, duplicate check passed.",
+      "Step 3 [Tool Call: supplier_history_lookup]: Supplier 'Unknown Crushed Stone Supplier' / GSTIN '29AABCU0000Z1ZZ' not found in master records.",
+      "Step 4 [Decision]: Low confidence due to unrecognized supplier. Escalating to accountant for manual master creation."
+    ],
+    "requires_human": true,
+    "action": "ESCALATE_TO_ACCOUNTANT",
+    "telegram_notification": {
+      "text": "\u2753 *Unrecognized Supplier: Invoice UNKNOWN-99*\nSupplier: Unknown Crushed Stone Supplier\nAmount: \u20b912,075.00\nAction: Needs manual supplier profile verification.",
+      "buttons": [
+        "Add Supplier",
+        "Reject Invoice"
+      ]
+    },
+    "email_draft": null
+  }
+]

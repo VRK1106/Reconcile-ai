@@ -1,0 +1,144 @@
+[
+  {
+    "supplier_id": "SUP001",
+    "name": "Sharma Trading Company",
+    "gstin": "29AABCS1429B1Z2",
+    "aliases": [
+      "SHARMA TRDRS",
+      "SHARMA TRADING",
+      "SHARMA TRDRS BLR",
+      "SHARMA TRAD CO"
+    ],
+    "email": "accounts@sharmatrading.in",
+    "phone": "+91 98450 11223",
+    "city": "Bengaluru",
+    "category": "Switches & Wiring Accessories"
+  },
+  {
+    "supplier_id": "SUP002",
+    "name": "Polycab Wires & Cables Ltd",
+    "gstin": "29AAACP2194D1ZK",
+    "aliases": [
+      "POLYCAB WIRES",
+      "POLYWIRES",
+      "POLYCAB INDIA",
+      "POLYCAB LTD"
+    ],
+    "email": "billing.south@polycab.com",
+    "phone": "+91 98451 22334",
+    "city": "Bengaluru",
+    "category": "Wires & Industrial Cables"
+  },
+  {
+    "supplier_id": "SUP003",
+    "name": "Havells India Limited",
+    "gstin": "29AAACH1820F1ZX",
+    "aliases": [
+      "HAVELLS IND",
+      "HAVELLS INDIA LTD",
+      "HAVELLS KA"
+    ],
+    "email": "support.karnataka@havells.com",
+    "phone": "+91 98452 33445",
+    "city": "Mangaluru",
+    "category": "Fans, Lighting & Circuit Breakers"
+  },
+  {
+    "supplier_id": "SUP004",
+    "name": "Supreme Industries Ltd",
+    "gstin": "29AAACS6328P1Z8",
+    "aliases": [
+      "SUPREME IND",
+      "SUPREME PIPES",
+      "SUPREME PLAST"
+    ],
+    "email": "pipes.sales@supreme.co.in",
+    "phone": "+91 98453 44556",
+    "city": "Udupi",
+    "category": "PVC Pipes & Plumbing Fittings"
+  },
+  {
+    "supplier_id": "SUP005",
+    "name": "Asian Paints Limited",
+    "gstin": "29AAACA2155H1ZV",
+    "aliases": [
+      "ASIAN PAINTS",
+      "ASIAN PAINTS LTD",
+      "APL BLR DEPOT"
+    ],
+    "email": "dealer.desk@asianpaints.com",
+    "phone": "+91 98454 55667",
+    "city": "Mangaluru",
+    "category": "Paints, Primers & Waterproofing"
+  },
+  {
+    "supplier_id": "SUP006",
+    "name": "Finolex Cables Ltd",
+    "gstin": "29AAACF1234L1ZN",
+    "aliases": [
+      "FINOLEX CABLES",
+      "FINOLEX",
+      "FINO CABLE BLR"
+    ],
+    "email": "customercare@finolex.com",
+    "phone": "+91 98455 66778",
+    "city": "Bengaluru",
+    "category": "Cables & Conduit Pipes"
+  },
+  {
+    "supplier_id": "SUP007",
+    "name": "Anchor by Panasonic",
+    "gstin": "29AAACA9981K1ZM",
+    "aliases": [
+      "ANCHOR ELEC",
+      "PANASONIC ANCHOR",
+      "ANCHOR BY PANASONIC"
+    ],
+    "email": "order.in@anchor-world.com",
+    "phone": "+91 98456 77889",
+    "city": "Hubballi",
+    "category": "Modular Switches & Sockets"
+  },
+  {
+    "supplier_id": "SUP008",
+    "name": "Schneider Electric India",
+    "gstin": "29AAACS7766M1Z5",
+    "aliases": [
+      "SCHNEIDER ELEC",
+      "SCHNEIDER IND",
+      "SCHNEIDER"
+    ],
+    "email": "in.orders@se.com",
+    "phone": "+91 98457 88990",
+    "city": "Bengaluru",
+    "category": "MCB & Distribution Boards"
+  },
+  {
+    "supplier_id": "SUP009",
+    "name": "Godrej Locking Solutions",
+    "gstin": "29AAACG4411C1ZY",
+    "aliases": [
+      "GODREJ LOCKS",
+      "GODREJ AND BOYCE",
+      "GODREJ HARDWARE"
+    ],
+    "email": "locks.care@godrej.com",
+    "phone": "+91 98458 99001",
+    "city": "Mangaluru",
+    "category": "Door Hardware & Locks"
+  },
+  {
+    "supplier_id": "SUP010",
+    "name": "Mangalore Tools & Fasteners",
+    "gstin": "29AABCM5522E1Z3",
+    "aliases": [
+      "MLORE TOOLS",
+      "MANGALORE FASTENERS",
+      "MANGALORE TOOLS"
+    ],
+    "email": "sales@mtoolskarnataka.com",
+    "phone": "+91 98459 00112",
+    "city": "Mangaluru",
+    "category": "Power Tools & Drill Bits"
+  }
+]

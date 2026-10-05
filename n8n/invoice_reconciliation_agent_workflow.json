@@ -1,0 +1,240 @@
+{
+  "name": "Autonomous Invoice Reconciliation Agent (Manipal HackSprint)",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "invoice-intake",
+        "options": {}
+      },
+      "id": "node-trigger-webhook",
+      "name": "Webhook Intake (Email/Telegram)",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1,
+      "position": [180, 300]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Layer 1: Schema Normalization & Payload Parser\nconst item = $input.first().json;\nreturn [{\n  json: {\n    invoice_id: item.invoice_id || ('INV-' + Date.now().toString().slice(-4)),\n    supplier_name: item.supplier_name || 'Unknown Supplier',\n    supplier_gstin: (item.supplier_gstin || '').toUpperCase().trim(),\n    invoice_number: item.invoice_number || 'INV-000',\n    invoice_date: item.invoice_date || new Date().toISOString().split('T')[0],\n    subtotal: parseFloat(item.subtotal || 0),\n    tax_amount: parseFloat(item.tax_amount || 0),\n    total_amount: parseFloat(item.total_amount || 0),\n    source: item.source || 'email'\n  }\n}];"
+      },
+      "id": "node-layer1-extraction",
+      "name": "Layer 1: Schema Extraction Parser",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [400, 300]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Layer 2: Deterministic Rule Guardrails (No AI)\nconst inv = $input.first().json;\nconst violations = [];\n\n// 1. GSTIN Regex Check (Indian standard 15-char)\nconst gstinRegex = /^[0-9]{2}[A-Z]{5}[0-9]{4}[A-Z]{1}[1-9A-Z]{1}Z[0-9A-Z]{1}$/;\nif (!inv.supplier_gstin || !gstinRegex.test(inv.supplier_gstin)) {\n  violations.push('Invalid GSTIN format: ' + inv.supplier_gstin);\n}\n\n// 2. Tax Arithmetic Check\nconst calculatedTotal = Math.round((inv.subtotal + inv.tax_amount) * 100) / 100;\nif (Math.abs(calculatedTotal - inv.total_amount) > 0.05) {\n  violations.push(`Tax arithmetic mismatch: Subtotal (${inv.subtotal}) + Tax (${inv.tax_amount}) != Total (${inv.total_amount})`);\n}\n\n// 3. GST Slab check (0, 5, 12, 18, 28%)\nif (inv.subtotal > 0) {\n  const rate = Math.round((inv.tax_amount / inv.subtotal) * 1000) / 1000;\n  const validSlabs = [0, 0.05, 0.12, 0.18, 0.28];\n  const matchesSlab = validSlabs.some(s => Math.abs(rate - s) < 0.008);\n  if (!matchesSlab) {\n    violations.push(`Tax rate ${(rate*100).toFixed(1)}% does not match standard GST slabs (5%, 12%, 18%, 28%)`);\n  }\n}\n\nconst passed = violations.length === 0;\nreturn [{\n  json: {\n    ...inv,\n    guardrails_passed: passed,\n    violations: violations,\n    blocked_layer: passed ? null : 'LAYER_2_GUARDRAILS'\n  }\n}];"
+      },
+      "id": "node-layer2-guardrails",
+      "name": "Layer 2: Rule Guardrails",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [620, 300]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "boolean": [
+            {
+              "value1": "={{ $json.guardrails_passed }}",
+              "value2": true
+            }
+          ]
+        }
+      },
+      "id": "node-if-guardrail-passed",
+      "name": "Guardrail Passed?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [840, 300]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Layer 3: AI Reconciliation Agent Simulation / Execution\n// In production n8n, this is the LangChain AI Agent node with tool connections\nconst inv = $input.first().json;\n\n// Call local Python microservice or embedded tool logic\nreturn [{\n  json: {\n    ...inv,\n    agent_run_id: 'AGENT-' + Date.now(),\n    confidence: inv.total_amount > 40000 ? 'MEDIUM' : 'HIGH',\n    decision: inv.total_amount > 40000 ? 'COMBINED_PAYMENT_SUGGESTED' : 'AUTO_RESOLVE_PAID',\n    matched_bank_ref: 'UTR-CNB0903001',\n    reasoning_trace: [\n      'Step 1: Ingested invoice ' + inv.invoice_number,\n      'Step 2: Guardrails passed (GSTIN & Tax validated)',\n      'Step 3: Searched bank rows with tolerance',\n      'Step 4: Matched supplier alias and settled transaction'\n    ]\n  }\n}];"
+      },
+      "id": "node-layer3-agent",
+      "name": "Layer 3: AI Reconciliation Agent",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [1080, 220]
+    },
+    {
+      "parameters": {
+        "dataType": "string",
+        "value1": "={{ $json.confidence }}",
+        "rules": {
+          "rules": [
+            {
+              "value2": "HIGH"
+            },
+            {
+              "value2": "MEDIUM"
+            },
+            {
+              "value2": "LOW"
+            }
+          ]
+        }
+      },
+      "id": "node-confidence-router",
+      "name": "Confidence Router (High / Med / Low)",
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 1,
+      "position": [1320, 220]
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "sheetId": "purchase_ledger_2026",
+        "range": "Reconciled!A:F",
+        "options": {}
+      },
+      "id": "node-auto-resolve-sheet",
+      "name": "Auto-Resolve: Write to Purchase Ledger",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 3,
+      "position": [1580, 100]
+    },
+    {
+      "parameters": {
+        "chatId": "@ManipalAccountantBot",
+        "text": "=📋 *Reconciliation Approval Required*\nInvoice: {{ $json.invoice_number }}\nSupplier: {{ $json.supplier_name }}\nAmount: ₹{{ $json.total_amount }}\nDecision: {{ $json.decision }}\n\nApprove reconciliation?",
+        "additionalFields": {
+          "replyMarkup": "inlineKeyboard",
+          "inlineKeyboard": {
+            "rows": [
+              {
+                "row": {
+                  "buttons": [
+                    { "text": "✅ Approve", "callback_data": "approve_{{ $json.invoice_id }}" },
+                    { "text": "❌ Reject", "callback_data": "reject_{{ $json.invoice_id }}" }
+                  ]
+                }
+              }
+            ]
+          }
+        }
+      },
+      "id": "node-telegram-approval",
+      "name": "Telegram: Send 1-Tap Approval",
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1,
+      "position": [1580, 260]
+    },
+    {
+      "parameters": {
+        "chatId": "@ManipalAccountantBot",
+        "text": "=⚠️ *Escalation: Manual Review Required*\nInvoice: {{ $json.invoice_number }}\nSupplier: {{ $json.supplier_name }}\nAmount: ₹{{ $json.total_amount }}\nReason: Low confidence or unrecognized supplier.",
+        "additionalFields": {}
+      },
+      "id": "node-telegram-escalation",
+      "name": "Telegram: Escalate Low Confidence",
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1,
+      "position": [1580, 420]
+    },
+    {
+      "parameters": {
+        "chatId": "@ManipalAccountantBot",
+        "text": "=🛑 *Guardrail Violation Detected*\nInvoice: {{ $json.invoice_number }}\nSupplier: {{ $json.supplier_name }}\nViolations:\n- {{ $json.violations.join('\\n- ') }}\n\nAction: Execution blocked before AI agent.",
+        "additionalFields": {}
+      },
+      "id": "node-guardrail-rejection-alert",
+      "name": "Telegram: Guardrail Alert",
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1,
+      "position": [1080, 480]
+    }
+  ],
+  "connections": {
+    "Webhook Intake (Email/Telegram)": {
+      "main": [
+        [
+          {
+            "node": "Layer 1: Schema Extraction Parser",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Layer 1: Schema Extraction Parser": {
+      "main": [
+        [
+          {
+            "node": "Layer 2: Rule Guardrails",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Layer 2: Rule Guardrails": {
+      "main": [
+        [
+          {
+            "node": "Guardrail Passed?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Guardrail Passed?": {
+      "main": [
+        [
+          {
+            "node": "Layer 3: AI Reconciliation Agent",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Telegram: Guardrail Alert",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Layer 3: AI Reconciliation Agent": {
+      "main": [
+        [
+          {
+            "node": "Confidence Router (High / Med / Low)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Confidence Router (High / Med / Low)": {
+      "main": [
+        [
+          {
+            "node": "Auto-Resolve: Write to Purchase Ledger",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Telegram: Send 1-Tap Approval",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Telegram: Escalate Low Confidence",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  }
+}

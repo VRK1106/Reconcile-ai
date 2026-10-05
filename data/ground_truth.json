@@ -1,0 +1,267 @@
+{
+  "INV-101": {
+    "status": "AUTO_RESOLVED",
+    "confidence": "HIGH",
+    "matched_txns": [
+      "TXN-20260902-01"
+    ],
+    "reconciliation_type": "EXACT_SINGLE_MATCH",
+    "requires_human": false,
+    "expected_action": "Write to ledger, mark PAID",
+    "notes": "Exact amount 17700 and narration match"
+  },
+  "INV-102": {
+    "status": "AUTO_RESOLVED",
+    "confidence": "HIGH",
+    "matched_txns": [
+      "TXN-20260904-02"
+    ],
+    "reconciliation_type": "EXACT_SINGLE_MATCH",
+    "requires_human": false,
+    "expected_action": "Write to ledger, mark PAID",
+    "notes": "Exact amount 41300 and invoice number in narration"
+  },
+  "INV-103": {
+    "status": "AUTO_RESOLVED",
+    "confidence": "HIGH",
+    "matched_txns": [
+      "TXN-20260905-03"
+    ],
+    "reconciliation_type": "EXACT_SINGLE_MATCH",
+    "requires_human": false,
+    "expected_action": "Write to ledger, mark PAID",
+    "notes": "Exact amount 25960"
+  },
+  "INV-104": {
+    "status": "AUTO_RESOLVED",
+    "confidence": "HIGH",
+    "matched_txns": [
+      "TXN-20260906-04"
+    ],
+    "reconciliation_type": "EXACT_SINGLE_MATCH",
+    "requires_human": false,
+    "expected_action": "Write to ledger, mark PAID",
+    "notes": "Exact amount 21830"
+  },
+  "INV-105": {
+    "status": "AUTO_RESOLVED",
+    "confidence": "HIGH",
+    "matched_txns": [
+      "TXN-20260908-05"
+    ],
+    "reconciliation_type": "EXACT_SINGLE_MATCH",
+    "requires_human": false,
+    "expected_action": "Write to ledger, mark PAID",
+    "notes": "Exact amount 66560"
+  },
+  "INV-106": {
+    "status": "AUTO_RESOLVED",
+    "confidence": "HIGH",
+    "matched_txns": [
+      "TXN-20260910-06"
+    ],
+    "reconciliation_type": "EXACT_SINGLE_MATCH",
+    "requires_human": false,
+    "expected_action": "Write to ledger, mark PAID",
+    "notes": "Exact amount 14632"
+  },
+  "INV-107": {
+    "status": "AUTO_RESOLVED",
+    "confidence": "HIGH",
+    "matched_txns": [
+      "TXN-20260911-07"
+    ],
+    "reconciliation_type": "EXACT_SINGLE_MATCH",
+    "requires_human": false,
+    "expected_action": "Write to ledger, mark PAID",
+    "notes": "Exact amount 10502"
+  },
+  "INV-108": {
+    "status": "AUTO_RESOLVED",
+    "confidence": "HIGH",
+    "matched_txns": [
+      "TXN-20260912-08"
+    ],
+    "reconciliation_type": "EXACT_SINGLE_MATCH",
+    "requires_human": false,
+    "expected_action": "Write to ledger, mark PAID",
+    "notes": "Exact amount 36580"
+  },
+  "INV-109": {
+    "status": "AUTO_RESOLVED",
+    "confidence": "HIGH",
+    "matched_txns": [
+      "TXN-20260913-09"
+    ],
+    "reconciliation_type": "EXACT_SINGLE_MATCH",
+    "requires_human": false,
+    "expected_action": "Write to ledger, mark PAID",
+    "notes": "Exact amount 16756"
+  },
+  "INV-110": {
+    "status": "AUTO_RESOLVED",
+    "confidence": "HIGH",
+    "matched_txns": [
+      "TXN-20260914-10"
+    ],
+    "reconciliation_type": "EXACT_SINGLE_MATCH",
+    "requires_human": false,
+    "expected_action": "Write to ledger, mark PAID",
+    "notes": "Exact amount 9204"
+  },
+  "INV-111": {
+    "status": "AUTO_RESOLVED",
+    "confidence": "HIGH",
+    "matched_txns": [
+      "TXN-20260916-11"
+    ],
+    "reconciliation_type": "ALIAS_NAME_MATCH",
+    "requires_human": false,
+    "expected_action": "Matched via known alias 'SHARMA TRDRS BLR', auto-resolved",
+    "notes": "Agent resolves via supplier alias memory"
+  },
+  "INV-112": {
+    "status": "AUTO_RESOLVED",
+    "confidence": "HIGH",
+    "matched_txns": [
+      "TXN-20260917-12"
+    ],
+    "reconciliation_type": "ALIAS_NAME_MATCH",
+    "requires_human": false,
+    "expected_action": "Matched via known alias 'POLYWIRES', auto-resolved",
+    "notes": "Resolved via supplier alias memory"
+  },
+  "INV-113": {
+    "status": "AUTO_RESOLVED",
+    "confidence": "HIGH",
+    "matched_txns": [
+      "TXN-20260918-13"
+    ],
+    "reconciliation_type": "ALIAS_NAME_MATCH",
+    "requires_human": false,
+    "expected_action": "Matched via known alias 'HAVELLS KA', auto-resolved",
+    "notes": "Resolved via cheque narration alias"
+  },
+  "INV-114": {
+    "status": "AUTO_RESOLVED",
+    "confidence": "HIGH",
+    "matched_txns": [
+      "TXN-20260919-14"
+    ],
+    "reconciliation_type": "ALIAS_NAME_MATCH",
+    "requires_human": false,
+    "expected_action": "Matched via known alias 'SUPREME PLAST', auto-resolved",
+    "notes": "Resolved via alias memory"
+  },
+  "INV-115": {
+    "status": "TELEGRAM_APPROVAL",
+    "confidence": "MEDIUM",
+    "matched_txns": [
+      "TXN-20260920-15"
+    ],
+    "reconciliation_type": "COMBINED_PAYMENT_MATCH",
+    "requires_human": true,
+    "expected_action": "Send Telegram approval prompt for combined Rs 47,200 payment covering INV-115 + INV-116",
+    "notes": "Subset sum tool identified 28,000 + 19,200 = 47,200"
+  },
+  "INV-116": {
+    "status": "TELEGRAM_APPROVAL",
+    "confidence": "MEDIUM",
+    "matched_txns": [
+      "TXN-20260920-15"
+    ],
+    "reconciliation_type": "COMBINED_PAYMENT_MATCH",
+    "requires_human": true,
+    "expected_action": "Send Telegram approval prompt for combined Rs 47,200 payment covering INV-115 + INV-116",
+    "notes": "Subset sum tool identified 28,000 + 19,200 = 47,200"
+  },
+  "INV-117": {
+    "status": "TELEGRAM_APPROVAL",
+    "confidence": "MEDIUM",
+    "matched_txns": [
+      "TXN-20260921-16"
+    ],
+    "reconciliation_type": "COMBINED_PAYMENT_MATCH",
+    "requires_human": true,
+    "expected_action": "Send Telegram approval prompt for combined Rs 85,000 covering INV-117 + INV-118",
+    "notes": "50,000 + 35,000 = 85,000"
+  },
+  "INV-118": {
+    "status": "TELEGRAM_APPROVAL",
+    "confidence": "MEDIUM",
+    "matched_txns": [
+      "TXN-20260921-16"
+    ],
+    "reconciliation_type": "COMBINED_PAYMENT_MATCH",
+    "requires_human": true,
+    "expected_action": "Send Telegram approval prompt for combined Rs 85,000 covering INV-117 + INV-118",
+    "notes": "50,000 + 35,000 = 85,000"
+  },
+  "INV-119": {
+    "status": "TELEGRAM_APPROVAL",
+    "confidence": "MEDIUM",
+    "matched_txns": [
+      "TXN-20260922-17"
+    ],
+    "reconciliation_type": "PARTIAL_PAYMENT_MATCH",
+    "requires_human": true,
+    "expected_action": "Prompt accountant on Telegram: Rs 30,000 paid against Rs 50,000 invoice (balance 20,000 due)",
+    "notes": "Narration confirms 'PART PYMT'"
+  },
+  "INV-120": {
+    "status": "TELEGRAM_APPROVAL",
+    "confidence": "MEDIUM",
+    "matched_txns": [
+      "TXN-20260923-18"
+    ],
+    "reconciliation_type": "CASH_DISCOUNT_MATCH",
+    "requires_human": true,
+    "expected_action": "Prompt accountant: Rs 24,500 paid for Rs 25,000 invoice (2% discount/TDS variance)",
+    "notes": "Variance within 2% cash discount threshold"
+  },
+  "INV-121": {
+    "status": "GUARDRAIL_BLOCKED",
+    "confidence": "ZERO",
+    "matched_txns": [],
+    "reconciliation_type": "DUPLICATE_DETECTED",
+    "requires_human": true,
+    "expected_action": "Guardrail Layer 2 stops execution before agent: duplicate of INV-101",
+    "notes": "Exact hash and invoice number duplicate caught"
+  },
+  "INV-122": {
+    "status": "GUARDRAIL_BLOCKED",
+    "confidence": "ZERO",
+    "matched_txns": [],
+    "reconciliation_type": "INVALID_GSTIN_FORMAT",
+    "requires_human": true,
+    "expected_action": "Guardrail Layer 2 rejects: GSTIN format fails regex check",
+    "notes": "No AI call made, deterministic fail"
+  },
+  "INV-123": {
+    "status": "GUARDRAIL_BLOCKED",
+    "confidence": "ZERO",
+    "matched_txns": [],
+    "reconciliation_type": "TAX_ARITHMETIC_ERROR",
+    "requires_human": true,
+    "expected_action": "Guardrail Layer 2 rejects: subtotal + tax != total",
+    "notes": "Tax math 20000 + 1200 != 21200 with standard 18% slab"
+  },
+  "INV-124": {
+    "status": "ESCALATED_UNPAID",
+    "confidence": "HIGH",
+    "matched_txns": [],
+    "reconciliation_type": "UNPAID_DRAFT_EMAIL",
+    "requires_human": true,
+    "expected_action": "Draft supplier follow-up email / payment voucher for Rs 76,700, hold for approval",
+    "notes": "Gated action: email draft created, never sent autonomously"
+  },
+  "INV-125": {
+    "status": "ESCALATED_LOW_CONFIDENCE",
+    "confidence": "LOW",
+    "matched_txns": [],
+    "reconciliation_type": "UNRECOGNIZED_SUPPLIER",
+    "requires_human": true,
+    "expected_action": "Escalate to accountant with summary of checks performed and reasons",
+    "notes": "Supplier not found, blurry extraction"
+  }
+}

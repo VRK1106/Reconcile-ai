@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ReconcileAI | Enterprise Architecture & Performance Console</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="console.css">
+</head>
+<body>
+  <!-- System Status Header -->
+  <header class="system-navbar">
+    <div class="nav-brand">
+      <div class="brand-logo">⚡</div>
+      <div>
+        <div class="brand-title">ReconcileAI <span>ENTERPRISE v2.0</span></div>
+        <div class="brand-sub">Sri Krishna Electricals & Hardware • Tiger Circle, Manipal</div>
+      </div>
+    </div>
+
+    <!-- Live Telemetry Badges -->
+    <div class="nav-telemetry">
+      <div class="telemetry-pill">
+        <span class="pill-dot green"></span>
+        <span class="pill-label">CPU:</span>
+        <span class="pill-val" id="telemetryCpu">--%</span>
+      </div>
+      <div class="telemetry-pill">
+        <span class="pill-dot blue"></span>
+        <span class="pill-label">MEM:</span>
+        <span class="pill-val" id="telemetryMem">-- MB</span>
+      </div>
+      <div class="telemetry-pill">
+        <span class="pill-dot purple"></span>
+        <span class="pill-label">P95 SLA:</span>
+        <span class="pill-val" id="telemetryP95">-- ms</span>
+      </div>
+      <div class="telemetry-pill">
+        <span class="pill-dot amber"></span>
+        <span class="pill-label">HITL Queue:</span>
+        <span class="pill-val" id="telemetryHitl">0 open</span>
+      </div>
+      <a href="/metrics" target="_blank" class="pill-link">
+        <span>📊 Prometheus /metrics</span>
+      </a>
+      <button id="batchReRunBtn" class="btn btn-sm btn-accent">⚡ Re-Run Benchmark</button>
+    </div>
+  </header>
+
+  <!-- Navigation Tabs Bar -->
+  <nav class="subnav-tabs">
+    <button class="nav-tab active" data-tab="tab-topology">
+      <span class="tab-icon">🌐</span> System Architecture & Pipeline
+    </button>
+    <button class="nav-tab" data-tab="tab-ledger">
+      <span class="tab-icon">📋</span> Reconciled Purchase Ledger
+    </button>
+    <button class="nav-tab" data-tab="tab-hitl">
+      <span class="tab-icon">👤</span> HITL Review Queue <span class="tab-counter" id="hitlBadgeCount">0</span>
+    </button>
+    <button class="nav-tab" data-tab="tab-outbox">
+      <span class="tab-icon">✉️</span> Gated Outbox <span class="tab-counter" id="outboxBadgeCount">0</span>
+    </button>
+    <button class="nav-tab" data-tab="tab-monitoring">
+      <span class="tab-icon">📈</span> Observability & Performance
+    </button>
+    <button class="nav-tab" data-tab="tab-audit">
+      <span class="tab-icon">🛡️</span> Audit Event Stream
+    </button>
+  </nav>
+
+  <!-- Main View Area -->
+  <main class="console-body">
+    <!-- TAB 1: SYSTEM ARCHITECTURE & TOPOLOGY -->
+    <section id="tab-topology" class="tab-content active">
+      <div class="content-header">
+        <div>
+          <h2>System Architecture & Live Pipeline Topology</h2>
+          <p>Real-time telemetry showing data flow from ingestion through deterministic guardrails to autonomous agent reasoning and governance.</p>
+        </div>
+        <div class="arch-legend">
+          <span class="legend-item"><span class="dot green"></span> Layer 1: Ingestion</span>
+          <span class="legend-item"><span class="dot red"></span> Layer 2: Guardrails</span>
+          <span class="legend-item"><span class="dot purple"></span> Layer 3: AI Agent</span>
+          <span class="legend-item"><span class="dot amber"></span> Governance & HITL</span>
+        </div>
+      </div>
+
+      <!-- Topology Diagram Grid -->
+      <div class="topology-canvas">
+        <!-- Ingestion Column -->
+        <div class="topology-stage">
+          <div class="stage-header">
+            <span class="stage-tag">LAYER 1</span>
+            <h3>Intake & Ingestion</h3>
+          </div>
+          <div class="stage-nodes">
+            <div class="node-box" id="nodeEmail">
+              <div class="node-title">📧 Email / IMAP Ingest</div>
+              <div class="node-metric">Port 993 • SSL Active</div>
+            </div>
+            <div class="node-box" id="nodeTelegram">
+              <div class="node-title">📱 Telegram Bot Webhook</div>
+              <div class="node-metric">@ManipalAccountantBot</div>
+            </div>
+            <div class="node-box" id="nodeParser">
+              <div class="node-title">⚙️ Schema Extractor</div>
+              <div class="node-metric">JSON Schema Normalizer</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="topology-arrow">→</div>
+
+        <!-- Guardrail Column -->
+        <div class="topology-stage stage-guardrail">
+          <div class="stage-header">
+            <span class="stage-tag red">LAYER 2</span>
+            <h3>Deterministic Guardrails</h3>
+          </div>
+          <div class="stage-nodes">
+            <div class="node-box guardrail-box">
+              <div class="node-title">🛡️ GSTIN Format Validator</div>
+              <div class="node-desc">15-char Indian Regex & State check</div>
+            </div>
+            <div class="node-box guardrail-box">
+              <div class="node-title">🧮 Tax Arithmetic Engine</div>
+              <div class="node-desc">0 / 5 / 12 / 18 / 28% GST Slabs</div>
+            </div>
+            <div class="node-box guardrail-box">
+              <div class="node-title">🔒 Duplicate Hash Lock</div>
+              <div class="node-desc">Prevents duplicate invoice payouts</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="topology-arrow">→</div>
+
+        <!-- Agent Column -->
+        <div class="topology-stage stage-agent">
+          <div class="stage-header">
+            <span class="stage-tag purple">LAYER 3</span>
+            <h3>AI Reconciliation Agent</h3>
+          </div>
+          <div class="stage-nodes">
+            <div class="node-box tool-box">
+              <div class="node-title">🏦 bank_row_search</div>
+              <div class="node-desc">Tolerance & Narration search</div>
+            </div>
+            <div class="node-box tool-box">
+              <div class="node-title">👥 supplier_history_lookup</div>
+              <div class="node-desc">Master profile & alias resolution</div>
+            </div>
+            <div class="node-box tool-box">
+              <div class="node-title">🧩 invoice_list_lookup</div>
+              <div class="node-desc">Subset-sum multi-invoice matching</div>
+            </div>
+            <div class="node-box tool-box">
+              <div class="node-title">🧠 corrections_memory_lookup</div>
+              <div class="node-desc">Persistent human precedent store</div>
+            </div>
+            <div class="node-box tool-box">
+              <div class="node-title">✉️ draft_email_tool</div>
+              <div class="node-desc">Gated inquiry generation</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="topology-arrow">→</div>
+
+        <!-- Destination Routing Column -->
+        <div class="topology-stage stage-routing">
+          <div class="stage-header">
+            <span class="stage-tag amber">ROUTING</span>
+            <h3>Confidence Governance</h3>
+          </div>
+          <div class="stage-nodes">
+            <div class="node-box dest-box success">
+              <div class="node-title">✅ Auto-Reconciled Ledger</div>
+              <div class="node-desc">High Confidence (>= 0.85) • Zero Touch</div>
+              <div class="node-stat" id="statAutoCount">14 Invoices (56%)</div>
+            </div>
+            <div class="node-box dest-box warning">
+              <div class="node-title">👤 Telegram HITL Queue</div>
+              <div class="node-desc">Medium Confidence (0.50 - 0.84)</div>
+              <div class="node-stat" id="statHitlCount">6 Invoices (24%)</div>
+            </div>
+            <div class="node-box dest-box alert">
+              <div class="node-title">⛔ Blocked / Escalations</div>
+              <div class="node-desc">Guardrail Failures & Unrecognized</div>
+              <div class="node-stat" id="statBlockedCount">5 Invoices (20%)</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TAB 2: PURCHASE LEDGER -->
+    <section id="tab-ledger" class="tab-content">
+      <div class="content-header">
+        <div>
+          <h2>Purchase Ledger & Reconciliation Master</h2>
+          <p>Complete ledger of processed invoices with real-time status, matched bank references, and deep-dive drawer inspection.</p>
+        </div>
+        <div class="ledger-actions">
+          <input type="text" id="ledgerSearchInput" placeholder="🔍 Search supplier or invoice number..." class="search-input">
+          <select id="ledgerStatusFilter" class="filter-select">
+            <option value="">All Statuses</option>
+            <option value="AUTO_RECONCILED">Auto-Reconciled (Paid)</option>
+            <option value="HITL_PENDING">HITL Pending Review</option>
+            <option value="HITL_APPROVED">HITL Approved</option>
+            <option value="GUARDRAIL_BLOCKED">Guardrail Blocked</option>
+            <option value="ESCALATED_UNPAID">Escalated (Unpaid)</option>
+            <option value="ESCALATED_LOW_CONFIDENCE">Escalated (Unrecognized)</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="table-card">
+        <table class="enterprise-table">
+          <thead>
+            <tr>
+              <th>Trace ID</th>
+              <th>Invoice Number</th>
+              <th>Supplier & GSTIN</th>
+              <th>Amount (₹)</th>
+              <th>Tax (₹)</th>
+              <th>Confidence</th>
+              <th>Status</th>
+              <th>Latency</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody id="ledgerTableBody">
+            <!-- Dynamically populated -->
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- TAB 3: HITL REVIEW QUEUE -->
+    <section id="tab-hitl" class="tab-content">
+      <div class="content-header">
+        <div>
+          <h2>Human-in-the-Loop (HITL) Governance Queue</h2>
+          <p>Pending review tasks routed to Senior Accountant Suresh Bhat for combined payments, partial settlements, and prompt cash discounts.</p>
+        </div>
+      </div>
+
+      <div class="hitl-grid" id="hitlCardsContainer">
+        <!-- Injected dynamically -->
+      </div>
+    </section>
+
+    <!-- TAB 4: GATED EMAIL OUTBOX -->
+    <section id="tab-outbox" class="tab-content">
+      <div class="content-header">
+        <div>
+          <h2>Approval-Gated Supplier Email Outbox</h2>
+          <p>Strict safety gate: Drafts generated by the autonomous agent for unpaid or overdue invoices are locked until authorized by a human.</p>
+        </div>
+      </div>
+
+      <div class="outbox-grid" id="outboxCardsContainer">
+        <!-- Injected dynamically -->
+      </div>
+    </section>
+
+    <!-- TAB 5: OBSERVABILITY & PERFORMANCE -->
+    <section id="tab-monitoring" class="tab-content">
+      <div class="content-header">
+        <div>
+          <h2>Professional Monitoring, Telemetry & Performance SLAs</h2>
+          <p>Real-time OpenTelemetry metrics, latency percentiles (p50, p95, p99), tool invocation durations, and host resource utilization.</p>
+        </div>
+      </div>
+
+      <div class="monitoring-grid">
+        <!-- SLA Cards -->
+        <div class="sla-card">
+          <div class="sla-title">Reconciliation Throughput</div>
+          <div class="sla-num" id="statTotalInvoices">25</div>
+          <div class="sla-sub">Invoices processed this session</div>
+        </div>
+
+        <div class="sla-card">
+          <div class="sla-title">Average Latency</div>
+          <div class="sla-num" id="statAvgLatency">-- ms</div>
+          <div class="sla-sub">End-to-end multi-step processing</div>
+        </div>
+
+        <div class="sla-card">
+          <div class="sla-title">P95 Latency</div>
+          <div class="sla-num" id="statP95Latency">-- ms</div>
+          <div class="sla-sub">SLA Target: &lt; 100.0 ms</div>
+        </div>
+
+        <div class="sla-card">
+          <div class="sla-title">SLA Compliance</div>
+          <div class="sla-num success" id="statSlaCompliance">100.0%</div>
+          <div class="sla-sub">Responses meeting strict SLA</div>
+        </div>
+      </div>
+
+      <!-- Two column breakdown -->
+      <div class="monitoring-split">
+        <!-- Left: Tool Latency Breakdown -->
+        <div class="panel-card">
+          <div class="panel-header">
+            <h3>Layer 3 Tool Invocation Performance</h3>
+            <span class="badge-pill">Prometheus Telemetry</span>
+          </div>
+          <table class="subtable">
+            <thead>
+              <tr>
+                <th>Tool Name</th>
+                <th>Invocations</th>
+                <th>Avg Latency (ms)</th>
+                <th>P95 Latency (ms)</th>
+              </tr>
+            </thead>
+            <tbody id="toolTelemetryTableBody">
+              <!-- Dynamically populated -->
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Right: Prometheus Raw Scrape Preview -->
+        <div class="panel-card">
+          <div class="panel-header">
+            <h3>Live Prometheus /metrics Scrape</h3>
+            <a href="/metrics" target="_blank" class="panel-link">Full OpenMetrics Stream ↗</a>
+          </div>
+          <pre class="metrics-preview" id="prometheusScrapePreview">Loading live metrics scrape...</pre>
+        </div>
+      </div>
+    </section>
+
+    <!-- TAB 6: AUDIT EVENT STREAM -->
+    <section id="tab-audit" class="tab-content">
+      <div class="content-header">
+        <div>
+          <h2>Immutable Enterprise Audit Trail</h2>
+          <p>Cryptographically correlated RFC 5424 audit logs capturing every guardrail check, agent tool call, and human decision.</p>
+        </div>
+      </div>
+
+      <div class="table-card">
+        <table class="enterprise-table">
+          <thead>
+            <tr>
+              <th>Timestamp</th>
+              <th>Trace ID</th>
+              <th>Event Type</th>
+              <th>Actor</th>
+              <th>Entity</th>
+              <th>Audit Payload Summary</th>
+            </tr>
+          </thead>
+          <tbody id="auditTableBody">
+            <!-- Dynamically populated -->
+          </tbody>
+        </table>
+      </div>
+    </section>
+  </main>
+
+  <!-- Deep Dive Invoice Drawer (Side Modal) -->
+  <aside class="drawer-overlay hidden" id="drawerOverlay">
+    <div class="drawer-panel">
+      <div class="drawer-header">
+        <div>
+          <span class="drawer-tag" id="drawerStatusTag">STATUS</span>
+          <h3 id="drawerInvNumber">Invoice Number</h3>
+          <p id="drawerSupplier">Supplier Name</p>
+        </div>
+        <button class="drawer-close" id="drawerCloseBtn">✕</button>
+      </div>
+
+      <div class="drawer-body">
+        <div class="drawer-section">
+          <h4>Financial Details</h4>
+          <div class="key-value-grid" id="drawerFinancials">
+            <!-- Injected -->
+          </div>
+        </div>
+
+        <div class="drawer-section">
+          <h4>Matched Bank Transaction</h4>
+          <div class="bank-match-box" id="drawerBankMatch">
+            <!-- Injected -->
+          </div>
+        </div>
+
+        <div class="drawer-section">
+          <h4>Layer 3 Multi-Step Reasoning Trace</h4>
+          <div class="trace-stream" id="drawerReasoningTrace">
+            <!-- Injected -->
+          </div>
+        </div>
+
+        <div class="drawer-section">
+          <h4>Tool Calls Executed</h4>
+          <div class="tool-calls-stream" id="drawerToolCalls">
+            <!-- Injected -->
+          </div>
+        </div>
+      </div>
+    </div>
+  </aside>
+
+  <script src="console.js"></script>
+</body>
+</html>
