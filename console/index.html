@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>ReconcileAI | Enterprise Architecture & Performance Console</title>
+  <title>ReconcileAI | Autonomous Invoice Reconciliation Command Center</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -15,7 +15,7 @@
     <div class="nav-brand">
       <div class="brand-logo">⚡</div>
       <div>
-        <div class="brand-title">ReconcileAI <span>ENTERPRISE v2.0</span></div>
+        <div class="brand-title">ReconcileAI <span>COMMAND CENTER v2.0</span></div>
         <div class="brand-sub">Sri Krishna Electricals & Hardware • Tiger Circle, Manipal</div>
       </div>
     </div>
@@ -49,13 +49,10 @@
     </div>
   </header>
 
-  <!-- Navigation Tabs Bar -->
+  <!-- Navigation Tabs Bar (Main Application is the First & Active Tab!) -->
   <nav class="subnav-tabs">
-    <button class="nav-tab active" data-tab="tab-topology">
-      <span class="tab-icon">🌐</span> System Architecture & Pipeline
-    </button>
-    <button class="nav-tab" data-tab="tab-ledger">
-      <span class="tab-icon">📋</span> Reconciled Purchase Ledger
+    <button class="nav-tab active" data-tab="tab-command-center">
+      <span class="tab-icon">⚡</span> Reconciliation Command Center
     </button>
     <button class="nav-tab" data-tab="tab-hitl">
       <span class="tab-icon">👤</span> HITL Review Queue <span class="tab-counter" id="hitlBadgeCount">0</span>
@@ -63,8 +60,11 @@
     <button class="nav-tab" data-tab="tab-outbox">
       <span class="tab-icon">✉️</span> Gated Outbox <span class="tab-counter" id="outboxBadgeCount">0</span>
     </button>
+    <button class="nav-tab" data-tab="tab-topology">
+      <span class="tab-icon">🌐</span> System Architecture
+    </button>
     <button class="nav-tab" data-tab="tab-monitoring">
-      <span class="tab-icon">📈</span> Observability & Performance
+      <span class="tab-icon">📈</span> Observability & Telemetry
     </button>
     <button class="nav-tab" data-tab="tab-audit">
       <span class="tab-icon">🛡️</span> Audit Event Stream
@@ -73,12 +73,160 @@
 
   <!-- Main View Area -->
   <main class="console-body">
-    <!-- TAB 1: SYSTEM ARCHITECTURE & TOPOLOGY -->
-    <section id="tab-topology" class="tab-content active">
+    <!-- TAB 1: RECONCILIATION COMMAND CENTER (MAIN APPLICATION - DEFAULT LANDING PAGE) -->
+    <section id="tab-command-center" class="tab-content active">
+      <!-- Top Measured Impact Summary Bar -->
+      <div class="kpi-banner-grid">
+        <div class="kpi-card glow-cyan">
+          <div class="kpi-header">
+            <span class="kpi-label">Auto-Resolution Rate</span>
+            <span class="kpi-chip">Zero Touch</span>
+          </div>
+          <div class="kpi-value" id="kpiAutoRate">56.0%</div>
+          <div class="kpi-sub">14 of 25 Invoices Resolved Automatically</div>
+          <div class="kpi-progress"><div class="fill" style="width: 56%"></div></div>
+        </div>
+
+        <div class="kpi-card glow-emerald">
+          <div class="kpi-header">
+            <span class="kpi-label">Agent Accuracy</span>
+            <span class="kpi-chip green">Audited</span>
+          </div>
+          <div class="kpi-value">100.0%</div>
+          <div class="kpi-sub">0 False Positive Ledger Mismatches</div>
+          <div class="kpi-progress"><div class="fill emerald" style="width: 100%"></div></div>
+        </div>
+
+        <div class="kpi-card glow-amber">
+          <div class="kpi-header">
+            <span class="kpi-label">Accountant Time Saved</span>
+            <span class="kpi-chip amber">ROI</span>
+          </div>
+          <div class="kpi-value">86.0%</div>
+          <div class="kpi-sub">75.0 min manual → 10.5 min review</div>
+          <div class="kpi-progress"><div class="fill amber" style="width: 86%"></div></div>
+        </div>
+
+        <div class="kpi-card glow-purple">
+          <div class="kpi-header">
+            <span class="kpi-label">P95 SLA Response Time</span>
+            <span class="kpi-chip purple">Prometheus</span>
+          </div>
+          <div class="kpi-value" id="kpiP95">5.18 ms</div>
+          <div class="kpi-sub">Target: &lt; 100 ms • 100% SLA Compliance</div>
+          <div class="kpi-progress"><div class="fill purple" style="width: 95%"></div></div>
+        </div>
+      </div>
+
+      <!-- Compact 3-Layer Architecture Status Bar -->
+      <div class="compact-arch-bar">
+        <div class="arch-bar-step">
+          <span class="arch-step-badge">LAYER 1</span>
+          <div>
+            <strong>Intake & Extraction</strong>
+            <span class="arch-step-sub">Email PDF / Telegram Image → JSON Schema</span>
+          </div>
+        </div>
+        <div class="arch-bar-arrow">→</div>
+        <div class="arch-bar-step highlight-guardrail">
+          <span class="arch-step-badge red">LAYER 2</span>
+          <div>
+            <strong>Rule Guardrails (No AI)</strong>
+            <span class="arch-step-sub">GSTIN Format • Tax Arithmetic • Duplicate Hash</span>
+          </div>
+        </div>
+        <div class="arch-bar-arrow">→</div>
+        <div class="arch-bar-step highlight-agent">
+          <span class="arch-step-badge purple">LAYER 3</span>
+          <div>
+            <strong>Reconciliation Agent</strong>
+            <span class="arch-step-sub">5 Tools: Bank Search, Aliases, Subset-Sum, Memory</span>
+          </div>
+        </div>
+        <div class="arch-bar-arrow">→</div>
+        <div class="arch-bar-step highlight-routing">
+          <span class="arch-step-badge amber">ROUTING</span>
+          <div>
+            <strong>Governance & Ledger Commit</strong>
+            <span class="arch-step-sub">High: Auto-Post • Med: Suresh Bhat Review • Low: Escalate</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Split Interactive Workspace (Ledger Feed + Live Inspector Panel) -->
+      <div class="command-workspace-split">
+        <!-- Left: Invoices Table Feed -->
+        <div class="workspace-left">
+          <div class="table-controls-bar">
+            <div class="filter-pills">
+              <button class="pill-btn active" data-filter="all">All (25)</button>
+              <button class="pill-btn" data-filter="auto">Auto-Resolved (14)</button>
+              <button class="pill-btn" data-filter="hitl">HITL Review (4)</button>
+              <button class="pill-btn" data-filter="blocked">Blocked / Esc (7)</button>
+            </div>
+            <input type="text" id="liveSearchInput" placeholder="🔍 Search supplier, invoice #, GSTIN..." class="search-input">
+          </div>
+
+          <div class="table-card table-scrollable">
+            <table class="enterprise-table" id="mainLedgerTable">
+              <thead>
+                <tr>
+                  <th>Invoice</th>
+                  <th>Supplier & GSTIN</th>
+                  <th>Amount (₹)</th>
+                  <th>Confidence</th>
+                  <th>Status</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody id="commandTableBody">
+                <!-- Dynamically populated -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Right: Live Reasoning & Action Panel -->
+        <div class="workspace-right" id="liveInspectorContainer">
+          <div class="panel-card sticky-panel" id="inspectorContent">
+            <!-- Populated on click or default featured invoice -->
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TAB 2: HITL REVIEW QUEUE -->
+    <section id="tab-hitl" class="tab-content">
       <div class="content-header">
         <div>
-          <h2>System Architecture & Live Pipeline Topology</h2>
-          <p>Real-time telemetry showing data flow from ingestion through deterministic guardrails to autonomous agent reasoning and governance.</p>
+          <h2>Human-in-the-Loop (HITL) Review Queue</h2>
+          <p>Assigned to Senior Accountant Suresh Bhat. Review ambiguous cases (split multi-invoice payments, partial payments, and prompt discounts) with 1-click ledger authorization.</p>
+        </div>
+      </div>
+      <div class="hitl-grid" id="hitlCardsContainer">
+        <!-- Injected dynamically -->
+      </div>
+    </section>
+
+    <!-- TAB 3: GATED EMAIL OUTBOX -->
+    <section id="tab-outbox" class="tab-content">
+      <div class="content-header">
+        <div>
+          <h2>Approval-Gated Supplier Email Outbox</h2>
+          <p>Strict safety policy: Follow-up emails drafted by the autonomous agent for unpaid or overdue invoices are locked in queue until explicitly authorized by a human.</p>
+        </div>
+      </div>
+      <div class="outbox-grid" id="outboxCardsContainer">
+        <!-- Injected dynamically -->
+      </div>
+    </section>
+
+    <!-- TAB 4: SYSTEM ARCHITECTURE & FULL TOPOLOGY -->
+    <section id="tab-topology" class="tab-content">
+      <div class="content-header">
+        <div>
+          <h2>Complete System Architecture & Service Topology</h2>
+          <p>Production components showing data flow from ingestion through deterministic guardrails to autonomous agent reasoning and governance.</p>
         </div>
         <div class="arch-legend">
           <span class="legend-item"><span class="dot green"></span> Layer 1: Ingestion</span>
@@ -88,7 +236,6 @@
         </div>
       </div>
 
-      <!-- Topology Diagram Grid -->
       <div class="topology-canvas">
         <!-- Ingestion Column -->
         <div class="topology-stage">
@@ -97,15 +244,15 @@
             <h3>Intake & Ingestion</h3>
           </div>
           <div class="stage-nodes">
-            <div class="node-box" id="nodeEmail">
+            <div class="node-box">
               <div class="node-title">📧 Email / IMAP Ingest</div>
               <div class="node-metric">Port 993 • SSL Active</div>
             </div>
-            <div class="node-box" id="nodeTelegram">
+            <div class="node-box">
               <div class="node-title">📱 Telegram Bot Webhook</div>
               <div class="node-metric">@ManipalAccountantBot</div>
             </div>
-            <div class="node-box" id="nodeParser">
+            <div class="node-box">
               <div class="node-title">⚙️ Schema Extractor</div>
               <div class="node-metric">JSON Schema Normalizer</div>
             </div>
@@ -185,86 +332,15 @@
             <div class="node-box dest-box warning">
               <div class="node-title">👤 Telegram HITL Queue</div>
               <div class="node-desc">Medium Confidence (0.50 - 0.84)</div>
-              <div class="node-stat" id="statHitlCount">6 Invoices (24%)</div>
+              <div class="node-stat" id="statHitlCount">4 Invoices (16%)</div>
             </div>
             <div class="node-box dest-box alert">
               <div class="node-title">⛔ Blocked / Escalations</div>
               <div class="node-desc">Guardrail Failures & Unrecognized</div>
-              <div class="node-stat" id="statBlockedCount">5 Invoices (20%)</div>
+              <div class="node-stat" id="statBlockedCount">7 Invoices (28%)</div>
             </div>
           </div>
         </div>
-      </div>
-    </section>
-
-    <!-- TAB 2: PURCHASE LEDGER -->
-    <section id="tab-ledger" class="tab-content">
-      <div class="content-header">
-        <div>
-          <h2>Purchase Ledger & Reconciliation Master</h2>
-          <p>Complete ledger of processed invoices with real-time status, matched bank references, and deep-dive drawer inspection.</p>
-        </div>
-        <div class="ledger-actions">
-          <input type="text" id="ledgerSearchInput" placeholder="🔍 Search supplier or invoice number..." class="search-input">
-          <select id="ledgerStatusFilter" class="filter-select">
-            <option value="">All Statuses</option>
-            <option value="AUTO_RECONCILED">Auto-Reconciled (Paid)</option>
-            <option value="HITL_PENDING">HITL Pending Review</option>
-            <option value="HITL_APPROVED">HITL Approved</option>
-            <option value="GUARDRAIL_BLOCKED">Guardrail Blocked</option>
-            <option value="ESCALATED_UNPAID">Escalated (Unpaid)</option>
-            <option value="ESCALATED_LOW_CONFIDENCE">Escalated (Unrecognized)</option>
-          </select>
-        </div>
-      </div>
-
-      <div class="table-card">
-        <table class="enterprise-table">
-          <thead>
-            <tr>
-              <th>Trace ID</th>
-              <th>Invoice Number</th>
-              <th>Supplier & GSTIN</th>
-              <th>Amount (₹)</th>
-              <th>Tax (₹)</th>
-              <th>Confidence</th>
-              <th>Status</th>
-              <th>Latency</th>
-              <th>Action</th>
-            </tr>
-          </thead>
-          <tbody id="ledgerTableBody">
-            <!-- Dynamically populated -->
-          </tbody>
-        </table>
-      </div>
-    </section>
-
-    <!-- TAB 3: HITL REVIEW QUEUE -->
-    <section id="tab-hitl" class="tab-content">
-      <div class="content-header">
-        <div>
-          <h2>Human-in-the-Loop (HITL) Governance Queue</h2>
-          <p>Pending review tasks routed to Senior Accountant Suresh Bhat for combined payments, partial settlements, and prompt cash discounts.</p>
-        </div>
-      </div>
-
-      <div class="hitl-grid" id="hitlCardsContainer">
-        <!-- Injected dynamically -->
-      </div>
-    </section>
-
-    <!-- TAB 4: GATED EMAIL OUTBOX -->
-    <section id="tab-outbox" class="tab-content">
-      <div class="content-header">
-        <div>
-          <h2>Approval-Gated Supplier Email Outbox</h2>
-          <p>Strict safety gate: Drafts generated by the autonomous agent for unpaid or overdue invoices are locked until authorized by a human.</p>
-        </div>
-      </div>
-
-      <div class="outbox-grid" id="outboxCardsContainer">
-        <!-- Injected dynamically -->
       </div>
     </section>
 
@@ -272,31 +348,27 @@
     <section id="tab-monitoring" class="tab-content">
       <div class="content-header">
         <div>
-          <h2>Professional Monitoring, Telemetry & Performance SLAs</h2>
-          <p>Real-time OpenTelemetry metrics, latency percentiles (p50, p95, p99), tool invocation durations, and host resource utilization.</p>
+          <h2>Observability, OpenTelemetry & Prometheus Telemetry</h2>
+          <p>Real-time SLA percentiles (p50, p95, p99), per-tool execution histograms, and host system resource load.</p>
         </div>
       </div>
 
       <div class="monitoring-grid">
-        <!-- SLA Cards -->
         <div class="sla-card">
           <div class="sla-title">Reconciliation Throughput</div>
           <div class="sla-num" id="statTotalInvoices">25</div>
           <div class="sla-sub">Invoices processed this session</div>
         </div>
-
         <div class="sla-card">
           <div class="sla-title">Average Latency</div>
           <div class="sla-num" id="statAvgLatency">-- ms</div>
           <div class="sla-sub">End-to-end multi-step processing</div>
         </div>
-
         <div class="sla-card">
           <div class="sla-title">P95 Latency</div>
           <div class="sla-num" id="statP95Latency">-- ms</div>
           <div class="sla-sub">SLA Target: &lt; 100.0 ms</div>
         </div>
-
         <div class="sla-card">
           <div class="sla-title">SLA Compliance</div>
           <div class="sla-num success" id="statSlaCompliance">100.0%</div>
@@ -304,9 +376,7 @@
         </div>
       </div>
 
-      <!-- Two column breakdown -->
       <div class="monitoring-split">
-        <!-- Left: Tool Latency Breakdown -->
         <div class="panel-card">
           <div class="panel-header">
             <h3>Layer 3 Tool Invocation Performance</h3>
@@ -327,7 +397,6 @@
           </table>
         </div>
 
-        <!-- Right: Prometheus Raw Scrape Preview -->
         <div class="panel-card">
           <div class="panel-header">
             <h3>Live Prometheus /metrics Scrape</h3>
@@ -366,50 +435,6 @@
       </div>
     </section>
   </main>
-
-  <!-- Deep Dive Invoice Drawer (Side Modal) -->
-  <aside class="drawer-overlay hidden" id="drawerOverlay">
-    <div class="drawer-panel">
-      <div class="drawer-header">
-        <div>
-          <span class="drawer-tag" id="drawerStatusTag">STATUS</span>
-          <h3 id="drawerInvNumber">Invoice Number</h3>
-          <p id="drawerSupplier">Supplier Name</p>
-        </div>
-        <button class="drawer-close" id="drawerCloseBtn">✕</button>
-      </div>
-
-      <div class="drawer-body">
-        <div class="drawer-section">
-          <h4>Financial Details</h4>
-          <div class="key-value-grid" id="drawerFinancials">
-            <!-- Injected -->
-          </div>
-        </div>
-
-        <div class="drawer-section">
-          <h4>Matched Bank Transaction</h4>
-          <div class="bank-match-box" id="drawerBankMatch">
-            <!-- Injected -->
-          </div>
-        </div>
-
-        <div class="drawer-section">
-          <h4>Layer 3 Multi-Step Reasoning Trace</h4>
-          <div class="trace-stream" id="drawerReasoningTrace">
-            <!-- Injected -->
-          </div>
-        </div>
-
-        <div class="drawer-section">
-          <h4>Tool Calls Executed</h4>
-          <div class="tool-calls-stream" id="drawerToolCalls">
-            <!-- Injected -->
-          </div>
-        </div>
-      </div>
-    </div>
-  </aside>
 
   <script src="console.js"></script>
 </body>

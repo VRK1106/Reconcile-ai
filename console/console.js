@@ -1,13 +1,21 @@
-// Enterprise Operations & Observability Console Logic
-let activeTab = 'tab-topology';
+// ReconcileAI Enterprise Command Center Client Logic
+let activeTab = 'tab-command-center';
 let invoicesList = [];
+let selectedInvoice = null;
+let currentFilter = 'all';
 let pollingInterval = null;
 
 async function initConsole() {
   setupTabs();
-  setupDrawer();
+  setupFiltersAndSearch();
   setupBatchButton();
   await refreshAll();
+
+  // Auto-select INV-115 (featured ambiguous multi-invoice case) on boot
+  if (invoicesList.length > 0) {
+    const featured = invoicesList.find(i => i.invoice_id === 'INV-115') || invoicesList[0];
+    selectInvoice(featured);
+  }
 
   // Poll telemetry every 3 seconds
   pollingInterval = setInterval(refreshTelemetry, 3000);
@@ -24,7 +32,7 @@ function setupTabs() {
       const target = document.getElementById(activeTab);
       if (target) target.classList.add('active');
 
-      if (activeTab === 'tab-ledger') loadLedger();
+      if (activeTab === 'tab-command-center') renderCommandTable();
       if (activeTab === 'tab-hitl') loadHitlTasks();
       if (activeTab === 'tab-outbox') loadOutbox();
       if (activeTab === 'tab-monitoring') loadMonitoring();
@@ -33,21 +41,24 @@ function setupTabs() {
   });
 }
 
-function setupDrawer() {
-  const closeBtn = document.getElementById('drawerCloseBtn');
-  const overlay = document.getElementById('drawerOverlay');
-  if (closeBtn) closeBtn.onclick = () => overlay.classList.add('hidden');
-  if (overlay) {
-    overlay.onclick = (e) => {
-      if (e.target === overlay) overlay.classList.add('hidden');
-    };
-  }
+function setupFiltersAndSearch() {
+  // Pill filters
+  document.querySelectorAll('.pill-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.pill-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      currentFilter = btn.dataset.filter;
+      renderCommandTable();
+    });
+  });
 
-  // Search & filter in ledger
-  const searchInput = document.getElementById('ledgerSearchInput');
-  const statusFilter = document.getElementById('ledgerStatusFilter');
-  if (searchInput) searchInput.oninput = () => renderLedgerRows();
-  if (statusFilter) statusFilter.onchange = () => renderLedgerRows();
+  // Search input
+  const searchInput = document.getElementById('liveSearchInput');
+  if (searchInput) {
+    searchInput.addEventListener('input', () => {
+      renderCommandTable();
+    });
+  }
 }
 
 function setupBatchButton() {
@@ -76,7 +87,7 @@ function setupBatchButton() {
 async function refreshAll() {
   await Promise.all([
     refreshTelemetry(),
-    loadLedger(),
+    loadInvoices(),
     loadHitlTasks(),
     loadOutbox(),
     loadMonitoring(),
@@ -95,6 +106,13 @@ async function refreshTelemetry() {
     document.getElementById('telemetryMem').innerText = `${data.host_telemetry.memory_rss_mb} MB`;
     document.getElementById('telemetryP95').innerText = `${data.sla_performance.p95_latency_ms} ms`;
 
+    // KPI Banner
+    const autoEl = document.getElementById('kpiAutoRate');
+    if (autoEl) autoEl.innerText = `${data.conversion_rates.auto_resolution_rate_pct}%`;
+
+    const p95El = document.getElementById('kpiP95');
+    if (p95El) p95El.innerText = `${data.sla_performance.p95_latency_ms} ms`;
+
     // Monitoring Cards
     const totalEl = document.getElementById('statTotalInvoices');
     if (totalEl) totalEl.innerText = data.sla_performance.total_invoices_reconciled;
@@ -102,29 +120,28 @@ async function refreshTelemetry() {
     const avgEl = document.getElementById('statAvgLatency');
     if (avgEl) avgEl.innerText = `${data.sla_performance.avg_latency_ms} ms`;
 
-    const p95El = document.getElementById('statP95Latency');
-    if (p95El) p95El.innerText = `${data.sla_performance.p95_latency_ms} ms`;
+    const statP95 = document.getElementById('statP95Latency');
+    if (statP95) statP95.innerText = `${data.sla_performance.p95_latency_ms} ms`;
 
     const slaEl = document.getElementById('statSlaCompliance');
     if (slaEl) slaEl.innerText = `${data.sla_performance.sla_compliance_pct}%`;
 
-    // Tool telemetry table
     renderToolTelemetry(data.tool_telemetry);
   } catch (e) {
-    console.warn('Telemetry poll error', e);
+    console.warn('Telemetry error', e);
   }
 }
 
-// 2. Load Ledger Table
-async function loadLedger() {
+// 2. Load Invoices
+async function loadInvoices() {
   try {
     const res = await fetch('/api/v1/invoices?limit=100');
     const data = await res.json();
     invoicesList = data.invoices;
-    renderLedgerRows();
+    renderCommandTable();
     updateTopologyCounters();
   } catch (e) {
-    console.error('Failed to load ledger', e);
+    console.error('Failed to load invoices', e);
   }
 }
 
@@ -143,24 +160,41 @@ function updateTopologyCounters() {
   if (blkEl) blkEl.innerText = `${blocked} Invoices (${Math.round(blocked/invoicesList.length*100 || 0)}%)`;
 }
 
-function renderLedgerRows() {
-  const tbody = document.getElementById('ledgerTableBody');
+function getFilteredInvoices() {
+  const q = (document.getElementById('liveSearchInput')?.value || '').toLowerCase();
+
+  return invoicesList.filter(inv => {
+    // Search match
+    const matchSearch = inv.supplier_name.toLowerCase().includes(q) ||
+                        inv.invoice_number.toLowerCase().includes(q) ||
+                        inv.supplier_gstin.toLowerCase().includes(q);
+
+    // Filter match
+    let matchFilter = true;
+    if (currentFilter === 'auto') {
+      matchFilter = (inv.status === 'AUTO_RECONCILED');
+    } else if (currentFilter === 'hitl') {
+      matchFilter = inv.status.includes('HITL');
+    } else if (currentFilter === 'blocked') {
+      matchFilter = inv.status.includes('BLOCKED') || inv.status.includes('ESCALATED');
+    }
+
+    return matchSearch && matchFilter;
+  });
+}
+
+function renderCommandTable() {
+  const tbody = document.getElementById('commandTableBody');
   if (!tbody) return;
   tbody.innerHTML = '';
 
-  const q = (document.getElementById('ledgerSearchInput')?.value || '').toLowerCase();
-  const sFilter = document.getElementById('ledgerStatusFilter')?.value || '';
+  const list = getFilteredInvoices();
 
-  const filtered = invoicesList.filter(inv => {
-    const matchesQ = inv.supplier_name.toLowerCase().includes(q) || inv.invoice_number.toLowerCase().includes(q);
-    const matchesS = !sFilter || inv.status === sFilter;
-    return matchesQ && matchesS;
-  });
-
-  filtered.forEach(inv => {
+  list.forEach(inv => {
     const tr = document.createElement('tr');
-    tr.style.cursor = 'pointer';
-    tr.onclick = () => openDrawer(inv.invoice_id);
+    tr.className = `table-row-item ${selectedInvoice && selectedInvoice.invoice_id === inv.invoice_id ? 'selected' : ''}`;
+    tr.id = `inv-row-${inv.invoice_id}`;
+    tr.onclick = () => selectInvoice(inv);
 
     let statusPillClass = 'auto';
     if (inv.status === 'HITL_PENDING') statusPillClass = 'hitl';
@@ -169,81 +203,231 @@ function renderLedgerRows() {
     else if (inv.status.includes('ESCALATED')) statusPillClass = 'escalated';
 
     tr.innerHTML = `
-      <td><span class="trace-id-badge">${inv.trace_id || 'TRC-N/A'}</span></td>
-      <td><strong>${inv.invoice_number}</strong><br><span style="font-size:10px; color:var(--text-muted);">${inv.invoice_date}</span></td>
-      <td><div>${inv.supplier_name}</div><div style="font-family:var(--font-mono); font-size:10px; color:var(--text-muted);">${inv.supplier_gstin}</div></td>
-      <td style="font-family:var(--font-mono); font-weight:700;">₹${inv.total_amount.toLocaleString('en-IN', { minimumFractionDigits: 2 })}</td>
-      <td style="font-family:var(--font-mono); color:var(--text-muted);">₹${inv.tax_amount.toLocaleString('en-IN', { minimumFractionDigits: 2 })}</td>
+      <td>
+        <div class="inv-code">${inv.invoice_number}</div>
+        <div class="inv-date">${inv.invoice_date} • ${inv.source}</div>
+      </td>
+      <td>
+        <div class="vendor-title">${inv.supplier_name}</div>
+        <div class="vendor-gstin">${inv.supplier_gstin}</div>
+      </td>
+      <td class="amount-text">₹${inv.total_amount.toLocaleString('en-IN', { minimumFractionDigits: 2 })}</td>
       <td><span class="status-pill ${inv.confidence === 'HIGH' ? 'auto' : 'hitl'}">${inv.confidence}</span></td>
       <td><span class="status-pill ${statusPillClass}">${inv.status}</span></td>
-      <td style="font-family:var(--font-mono); font-size:11px;">${inv.total_processing_ms || 1.2} ms</td>
-      <td><button class="btn btn-sm" style="background:var(--bg-accent); color:var(--text-primary);" onclick="event.stopPropagation(); openDrawer('${inv.invoice_id}')">Inspect ↗</button></td>
+      <td>
+        <button class="btn btn-sm" style="background:var(--bg-accent); color:var(--text-primary);" onclick="event.stopPropagation(); selectInvoiceById('${inv.invoice_id}')">
+          Inspect ↗
+        </button>
+      </td>
     `;
     tbody.appendChild(tr);
   });
 }
 
-// 3. Open Deep Dive Drawer
-async function openDrawer(invoiceId) {
+function selectInvoiceById(id) {
+  const inv = invoicesList.find(i => i.invoice_id === id);
+  if (inv) selectInvoice(inv);
+}
+
+async function selectInvoice(inv) {
+  selectedInvoice = inv;
+  document.querySelectorAll('.table-row-item').forEach(r => r.classList.remove('selected'));
+  const row = document.getElementById(`inv-row-${inv.invoice_id}`);
+  if (row) row.classList.add('selected');
+
+  // Fetch full details with tool calls and matched bank transaction
   try {
-    const res = await fetch(`/api/v1/invoices/${invoiceId}`);
-    if (!res.ok) return;
-    const inv = await res.json();
-
-    document.getElementById('drawerInvNumber').innerText = inv.invoice_number;
-    document.getElementById('drawerSupplier').innerText = `${inv.supplier_name} (${inv.supplier_gstin})`;
-
-    const tag = document.getElementById('drawerStatusTag');
-    tag.innerText = inv.status;
-    tag.className = `drawer-tag ${inv.status === 'AUTO_RECONCILED' ? 'status-pill auto' : 'status-pill hitl'}`;
-
-    // Financials
-    document.getElementById('drawerFinancials').innerHTML = `
-      <div><span style="color:var(--text-muted)">Subtotal:</span> ₹${inv.subtotal.toLocaleString('en-IN')}</div>
-      <div><span style="color:var(--text-muted)">Tax Amount:</span> ₹${inv.tax_amount.toLocaleString('en-IN')}</div>
-      <div><span style="color:var(--text-muted)">Total Amount:</span> <strong>₹${inv.total_amount.toLocaleString('en-IN')}</strong></div>
-      <div><span style="color:var(--text-muted)">Due Date:</span> ${inv.due_date || 'N/A'}</div>
-      <div><span style="color:var(--text-muted)">Source:</span> ${inv.source}</div>
-      <div><span style="color:var(--text-muted)">Trace ID:</span> ${inv.trace_id}</div>
-    `;
-
-    // Matched Bank Row
-    const bankBox = document.getElementById('drawerBankMatch');
-    if (inv.matched_bank_rows && inv.matched_bank_rows.length > 0) {
-      const b = inv.matched_bank_rows[0];
-      bankBox.innerHTML = `
-        <div style="font-weight:700; color:var(--accent-emerald);">✓ Matched: ${b.txn_id} (${b.ref_no})</div>
-        <div style="font-family:var(--font-mono); font-size:11px; margin-top:4px;">${b.narration}</div>
-        <div style="margin-top:4px;">Date: ${b.txn_date} • Amount: ₹${b.amount.toLocaleString('en-IN')} • Status: ${b.reconciliation_status}</div>
-      `;
+    const res = await fetch(`/api/v1/invoices/${inv.invoice_id}`);
+    if (res.ok) {
+      const fullDetail = await res.json();
+      renderInspector(fullDetail);
     } else {
-      bankBox.innerHTML = `<span style="color:var(--text-muted);">No matched bank debit row found. (Status: ${inv.status})</span>`;
+      renderInspector(inv);
     }
-
-    // Reasoning Trace
-    const traceStream = document.getElementById('drawerReasoningTrace');
-    traceStream.innerHTML = inv.reasoning_trace.map(t => `<div class="trace-line">${t}</div>`).join('');
-
-    // Tool calls
-    const toolsStream = document.getElementById('drawerToolCalls');
-    if (inv.tool_calls && inv.tool_calls.length > 0) {
-      toolsStream.innerHTML = inv.tool_calls.map(tc => `
-        <div class="tool-chip">
-          <span>🛠️ ${tc.tool_name}</span>
-          <span style="color:var(--accent-cyan);">${tc.duration_ms} ms</span>
-        </div>
-      `).join('');
-    } else {
-      toolsStream.innerHTML = `<span style="font-size:11px; color:var(--text-muted);">No tool calls (stopped at Layer 2 Guardrails).</span>`;
-    }
-
-    document.getElementById('drawerOverlay').classList.remove('hidden');
   } catch (e) {
-    console.error('Drawer load failed', e);
+    renderInspector(inv);
   }
 }
 
-// 4. Load HITL Review Queue
+function renderInspector(inv) {
+  const container = document.getElementById('inspectorContent');
+  if (!container) return;
+
+  // Timeline reasoning steps
+  const traceHtml = (inv.reasoning_trace || []).map(step => {
+    let cls = '';
+    if (step.includes('Verified') || step.includes('Auto-Post') || step.includes('Passed')) cls = 'success';
+    else if (step.includes('Failure') || step.includes('Blocked') || step.includes('Escalation')) cls = 'alert';
+    else if (step.includes('Combined') || step.includes('Partial') || step.includes('HITL')) cls = 'hitl';
+
+    return `
+      <div class="trace-item ${cls}">
+        <div class="trace-text">${step}</div>
+      </div>
+    `;
+  }).join('');
+
+  // Matched bank record callout
+  let bankMatchHtml = '';
+  if (inv.matched_bank_rows && inv.matched_bank_rows.length > 0) {
+    const b = inv.matched_bank_rows[0];
+    bankMatchHtml = `
+      <div class="tool-callout-box">
+        <div class="tool-callout-title">
+          <span>🏦</span> Matched Bank Debit: ${b.txn_id} (${b.ref_no})
+        </div>
+        <div style="font-family:var(--font-mono); font-size:11px; margin-top:2px;">
+          ${b.narration}
+        </div>
+        <div style="margin-top:4px;">
+          Date: ${b.txn_date} • Amount: <strong>₹${b.amount.toLocaleString('en-IN')}</strong> • Status: ${b.reconciliation_status}
+        </div>
+      </div>
+    `;
+  }
+
+  // HITL Action Prompt if pending
+  let hitlActionHtml = '';
+  if (inv.status === 'HITL_PENDING') {
+    hitlActionHtml = `
+      <div class="inline-hitl-card">
+        <div class="inline-hitl-header">
+          <span>👤</span> Telegram HITL Prompt: Suresh Bhat Review Required
+        </div>
+        <div class="inline-hitl-prompt">
+          Decision: ${inv.decision}\nConfidence: ${inv.confidence} (${inv.confidence_score})\nAmbiguity flagged for accountant confirmation.
+        </div>
+        <div class="inline-hitl-actions">
+          <button class="btn btn-sm btn-approve" onclick="resolveInvoiceHitl('${inv.invoice_id}', 'APPROVE')">
+            ✓ 1-Tap Approve & Post to Ledger
+          </button>
+          <button class="btn btn-sm btn-reject" onclick="resolveInvoiceHitl('${inv.invoice_id}', 'REJECT')">
+            ✕ Reject / Flag Disputed
+          </button>
+        </div>
+      </div>
+    `;
+  } else if (inv.status === 'HITL_APPROVED') {
+    hitlActionHtml = `
+      <div style="background:rgba(16,185,129,0.1); border:1px solid rgba(16,185,129,0.3); border-radius:8px; padding:10px; margin-top:12px; font-size:11px; color:#34d399; font-weight:700;">
+        ✓ Authorized and Reconciled by Suresh Bhat (Senior Accountant)
+      </div>
+    `;
+  }
+
+  // Gated email draft if present
+  let emailDraftHtml = '';
+  if (inv.status === 'ESCALATED_UNPAID') {
+    emailDraftHtml = `
+      <div class="inline-email-card">
+        <div class="inline-email-header">
+          <span>✉️ Gated Supplier Email Inquiry</span>
+          <span style="font-size:10px; color:var(--accent-amber);">APPROVAL REQUIRED</span>
+        </div>
+        <div class="inline-email-body">To: ${inv.supplier_name} Billing Team\nSubject: Inquiry: Payment Status for ${inv.invoice_number} (₹${inv.total_amount.toLocaleString('en-IN')})\n\nDear Accounts Team,\nNo matching bank debit identified as of current reconciliation run.\nCould you please confirm the payment UTR / bank reference?\n\n- Accounts Department, Sri Krishna Electricals Manipal</div>
+        <div style="display:flex; justify-content:space-between; align-items:center;">
+          <span style="font-size:11px; color:var(--accent-amber); font-weight:600;">🔒 Safety Lock Active</span>
+          <button class="btn btn-sm btn-accent" onclick="dispatchDirectEmail('${inv.invoice_id}')">
+            Authorize & Dispatch Email
+          </button>
+        </div>
+      </div>
+    `;
+  }
+
+  // Tool calls chips
+  let toolChipsHtml = '';
+  if (inv.tool_calls && inv.tool_calls.length > 0) {
+    toolChipsHtml = `
+      <div style="margin-top:14px;">
+        <div style="font-size:11px; font-weight:700; color:var(--text-muted); text-transform:uppercase; margin-bottom:6px;">
+          Tools Executed (${inv.tool_calls.length})
+        </div>
+        <div style="display:flex; flex-wrap:wrap; gap:6px;">
+          ${inv.tool_calls.map(tc => `<span style="font-size:10px; font-family:var(--font-mono); background:var(--bg-accent); padding:3px 7px; border-radius:4px; border:1px solid var(--border); color:var(--accent-purple);">🛠️ ${tc.tool_name} (${tc.duration_ms}ms)</span>`).join('')}
+        </div>
+      </div>
+    `;
+  }
+
+  container.innerHTML = `
+    <div class="inspector-top-row">
+      <div>
+        <div class="inspector-inv-title">${inv.invoice_number}</div>
+        <div class="inspector-sup-name">${inv.supplier_name}</div>
+        <div style="font-family:var(--font-mono); font-size:10px; color:var(--text-muted);">GSTIN: ${inv.supplier_gstin}</div>
+      </div>
+      <div class="inspector-amount-col">
+        <div class="inspector-amt-val">₹${inv.total_amount.toLocaleString('en-IN', { minimumFractionDigits: 2 })}</div>
+        <div class="badge-row">
+          <span class="status-pill ${inv.confidence === 'HIGH' ? 'auto' : 'hitl'}">${inv.confidence}</span>
+          <span class="status-pill auto">${inv.status}</span>
+        </div>
+      </div>
+    </div>
+
+    ${bankMatchHtml}
+
+    <div style="margin-top:12px;">
+      <div style="font-size:11px; font-weight:700; color:var(--text-muted); text-transform:uppercase; letter-spacing:0.04em;">
+        Multi-Step Agent Reasoning Trace
+      </div>
+      <div class="trace-timeline">
+        ${traceHtml || '<div style="font-size:11px; color:var(--text-muted);">No trace recorded.</div>'}
+      </div>
+    </div>
+
+    ${toolChipsHtml}
+    ${hitlActionHtml}
+    ${emailDraftHtml}
+  `;
+}
+
+async function resolveInvoiceHitl(invoiceId, action) {
+  try {
+    // Find the task for this invoice
+    const tasksRes = await fetch('/api/v1/hitl/tasks?status=');
+    const tasks = await tasksRes.json();
+    const task = tasks.find(t => t.invoice_id === invoiceId);
+
+    if (task) {
+      await fetch(`/api/v1/hitl/tasks/${task.task_id}/resolve`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ action: action, reviewer: 'Suresh Bhat (Senior Accountant)', notes: 'Approved from Command Center' })
+      });
+      await refreshAll();
+      selectInvoiceById(invoiceId);
+    } else {
+      alert('Task already resolved or not found.');
+    }
+  } catch (e) {
+    console.error(e);
+  }
+}
+
+async function dispatchDirectEmail(invoiceId) {
+  try {
+    const draftsRes = await fetch('/api/v1/email-drafts');
+    const drafts = await draftsRes.json();
+    const draft = drafts.find(d => d.invoice_id === invoiceId);
+
+    if (draft) {
+      await fetch(`/api/v1/email-drafts/${draft.draft_id}/dispatch`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ authorized_by: 'Suresh Bhat (Senior Accountant)' })
+      });
+      alert(`Email draft authorized and dispatched to ${draft.recipient_email}.`);
+      await refreshAll();
+      selectInvoiceById(invoiceId);
+    }
+  } catch (e) {
+    console.error(e);
+  }
+}
+
+// 3. Load HITL Review Queue Tab
 async function loadHitlTasks() {
   try {
     const res = await fetch('/api/v1/hitl/tasks?status=');
@@ -264,24 +448,24 @@ async function loadHitlTasks() {
 
     tasks.forEach(t => {
       const card = document.createElement('div');
-      card.className = `hitl-card ${t.status !== 'PENDING' ? 'approved' : ''}`;
+      card.className = `hitl-card ${t.status === 'PENDING' ? 'pending' : 'approved'}`;
 
       const buttonsHtml = t.status === 'PENDING' ? `
-        <div class="hitl-actions">
-          <button class="btn btn-sm btn-approve" onclick="resolveHitl('${t.task_id}', 'APPROVE')">✓ Approve & Post</button>
+        <div class="inline-hitl-actions">
+          <button class="btn btn-sm btn-approve" onclick="resolveHitl('${t.task_id}', 'APPROVE')">✓ Approve & Post to Ledger</button>
           <button class="btn btn-sm btn-reject" onclick="resolveHitl('${t.task_id}', 'REJECT')">✕ Reject / Dispute</button>
         </div>
       ` : `<div style="font-size:11px; color:var(--accent-emerald); font-weight:700;">✓ Resolved (${t.status}) by ${t.resolved_by || 'Suresh Bhat'}</div>`;
 
       card.innerHTML = `
-        <div class="hitl-card-header">
+        <div style="display:flex; justify-content:space-between; align-items:flex-start;">
           <div>
-            <div class="hitl-card-title">${t.title}</div>
-            <div class="hitl-card-meta">Invoice: ${t.invoice_number} • ${t.supplier_name} (₹${t.total_amount.toLocaleString('en-IN')})</div>
+            <div style="font-size:14px; font-weight:700; color:var(--accent-amber);">${t.title}</div>
+            <div style="font-size:11px; color:var(--text-muted);">Invoice: ${t.invoice_number} • ${t.supplier_name} (₹${t.total_amount.toLocaleString('en-IN')})</div>
           </div>
           <span class="status-pill ${t.status === 'PENDING' ? 'hitl' : 'auto'}">${t.status}</span>
         </div>
-        <div class="hitl-card-prompt">${t.prompt_text}</div>
+        <div class="inline-hitl-prompt">${t.prompt_text}</div>
         ${buttonsHtml}
       `;
       container.appendChild(card);
@@ -296,7 +480,7 @@ async function resolveHitl(taskId, action) {
     const res = await fetch(`/api/v1/hitl/tasks/${taskId}/resolve`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ action: action, reviewer: 'Suresh Bhat (Senior Accountant)', notes: 'Approved via Enterprise Console' })
+      body: JSON.stringify({ action: action, reviewer: 'Suresh Bhat (Senior Accountant)', notes: 'Approved via Console' })
     });
     if (res.ok) {
       await refreshAll();
@@ -306,7 +490,7 @@ async function resolveHitl(taskId, action) {
   }
 }
 
-// 5. Load Gated Outbox
+// 4. Load Outbox Tab
 async function loadOutbox() {
   try {
     const res = await fetch('/api/v1/email-drafts');
@@ -343,7 +527,7 @@ async function loadOutbox() {
           <div><strong>To:</strong> ${d.recipient_email}</div>
           <div><strong>Subject:</strong> ${d.subject}</div>
         </div>
-        <div class="outbox-body">${d.body}</div>
+        <div class="inline-email-body">${d.body}</div>
         ${actionHtml}
       `;
       container.appendChild(card);
@@ -369,7 +553,7 @@ async function dispatchEmail(draftId) {
   }
 }
 
-// 6. Monitoring & Tool Latency
+// 5. Tool Telemetry Rendering
 function renderToolTelemetry(toolData) {
   const tbody = document.getElementById('toolTelemetryTableBody');
   if (!tbody || !toolData) return;
@@ -400,7 +584,7 @@ async function loadMonitoring() {
   }
 }
 
-// 7. Load Audit Logs
+// 6. Audit Logs Tab
 async function loadAuditLogs() {
   try {
     const res = await fetch('/api/v1/audit/logs?limit=50');
@@ -413,7 +597,7 @@ async function loadAuditLogs() {
       const tr = document.createElement('tr');
       tr.innerHTML = `
         <td style="font-family:var(--font-mono); font-size:11px; color:var(--text-muted);">${l.created_at}</td>
-        <td><span class="trace-id-badge">${l.trace_id}</span></td>
+        <td><span style="font-family:var(--font-mono); color:var(--accent-cyan); font-size:11px;">${l.trace_id}</span></td>
         <td><span class="status-pill auto">${l.event_type}</span></td>
         <td><span style="font-family:var(--font-mono);">${l.actor}</span></td>
         <td>${l.entity_type} (${l.entity_id})</td>
