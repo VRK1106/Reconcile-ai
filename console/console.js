@@ -572,6 +572,7 @@ function renderToolTelemetry(toolData) {
 }
 
 async function loadMonitoring() {
+  await refreshTelemetry();
   try {
     const res = await fetch('/metrics');
     const text = await res.text();

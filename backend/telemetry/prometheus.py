@@ -98,7 +98,70 @@ class PerformanceTracker:
         if len(self.tool_latencies[tool_name]) > self.max_samples:
             self.tool_latencies[tool_name].pop(0)
 
+    def hydrate_from_db(self, conn):
+        try:
+            cur = conn.cursor()
+            cur.execute("""
+                SELECT total_processing_ms, decision, confidence, guardrail_passed, source, status 
+                FROM invoices 
+                WHERE decision IS NOT NULL
+            """)
+            rows = cur.fetchall()
+            if not rows:
+                return
+            
+            # Reset and rehydrate counters
+            self.latencies.clear()
+            self.total_processed = 0
+            self.auto_resolved = 0
+            self.hitl_count = 0
+            self.blocked_count = 0
+            
+            for r in rows:
+                ms = float(r["total_processing_ms"] or 1.5)
+                dec = r["decision"] or ""
+                conf = r["confidence"] or ""
+                gp = bool(r["guardrail_passed"])
+                self.record_invoice(ms, dec, conf, gp)
+                try:
+                    INVOICE_PROCESSED_TOTAL.labels(
+                        source=r["source"] or "email",
+                        status=r["status"] or "UNKNOWN",
+                        confidence=conf or "UNKNOWN"
+                    ).inc()
+                except Exception:
+                    pass
+
+            cur.execute("SELECT tool_name, duration_ms FROM tool_calls")
+            tc_rows = cur.fetchall()
+            self.tool_latencies.clear()
+            for tc in tc_rows:
+                t_name = tc["tool_name"]
+                d_ms = float(tc["duration_ms"] or 0.1)
+                self.record_tool(t_name, d_ms)
+                try:
+                    TOOL_EXECUTIONS_TOTAL.labels(tool_name=t_name).inc()
+                    TOOL_LATENCY_HISTOGRAM.labels(tool_name=t_name).observe(d_ms / 1000.0)
+                except Exception:
+                    pass
+
+            cur.execute("SELECT COUNT(*) as cnt FROM hitl_tasks WHERE status = 'PENDING'")
+            pending = cur.fetchone()
+            if pending:
+                ACTIVE_HITL_TASKS.set(pending["cnt"])
+        except Exception as e:
+            print(f"[Telemetry Hydration Warning] {e}")
+
     def get_summary(self) -> Dict[str, Any]:
+        if self.total_processed == 0:
+            try:
+                from backend.db.database import get_connection
+                conn = get_connection()
+                self.hydrate_from_db(conn)
+                conn.close()
+            except Exception:
+                pass
+
         uptime_sec = round(time.time() - self.start_time, 1)
         proc = psutil.Process(os.getpid())
         mem_mb = round(proc.memory_info().rss / (1024 * 1024), 2)

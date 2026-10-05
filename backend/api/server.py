@@ -62,18 +62,22 @@ def startup_event():
     seed_initial_data()
     # Trigger benchmark initial batch if empty
     conn = get_connection()
-    cur = conn.cursor()
-    cur.execute("SELECT COUNT(*) as cnt FROM invoices")
-    if cur.fetchone()["cnt"] == 0:
-        print("[System Startup] Pre-populating benchmark invoices into persistent database...")
-        if os.path.exists("data/invoices.json"):
-            with open("data/invoices.json", "r", encoding="utf-8") as f:
-                inv_list = json.load(f)
-            agent = AgentService(conn)
-            for inv in inv_list:
-                agent.process_invoice(inv)
-            print(f"[System Startup] Successfully reconciled {len(inv_list)} benchmark invoices.")
-    conn.close()
+    try:
+        cur = conn.cursor()
+        cur.execute("SELECT COUNT(*) as cnt FROM invoices")
+        if cur.fetchone()["cnt"] == 0:
+            print("[System Startup] Pre-populating benchmark invoices into persistent database...")
+            if os.path.exists("data/invoices.json"):
+                with open("data/invoices.json", "r", encoding="utf-8") as f:
+                    inv_list = json.load(f)
+                agent = AgentService(conn)
+                for inv in inv_list:
+                    agent.process_invoice(inv)
+                print(f"[System Startup] Successfully reconciled {len(inv_list)} benchmark invoices.")
+        # Rehydrate in-memory performance and OpenTelemetry metrics from database
+        perf_tracker.hydrate_from_db(conn)
+    finally:
+        conn.close()
 
 # 1. Health & Readiness Probe
 @app.get("/api/v1/health")
@@ -94,6 +98,13 @@ def health_check():
 # 2. Prometheus Scrape Endpoint
 @app.get("/metrics")
 def get_metrics():
+    if perf_tracker.total_processed == 0:
+        try:
+            conn = get_connection()
+            perf_tracker.hydrate_from_db(conn)
+            conn.close()
+        except Exception:
+            pass
     return Response(content=generate_latest(), media_type=CONTENT_TYPE_LATEST)
 
 # 3. Real-Time Telemetry & SLA Stats
