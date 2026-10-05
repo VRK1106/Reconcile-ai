@@ -305,6 +305,9 @@ def run_benchmark_batch():
 
 # Mount Console Static Files
 console_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..", "console"))
+if not os.path.exists(console_dir):
+    console_dir = os.path.abspath(os.path.join(os.getcwd(), "console"))
+
 if os.path.exists(console_dir):
     app.mount("/console", StaticFiles(directory=console_dir, html=True), name="console")
 

@@ -6,13 +6,24 @@ import os
 import json
 from typing import List, Dict, Any, Optional
 
-DB_FILE = os.path.join(os.path.dirname(__file__), "reconcile_ai.db")
+if os.environ.get("VERCEL") or os.environ.get("AWS_LAMBDA_FUNCTION_NAME"):
+    DB_FILE = "/tmp/reconcile_ai.db"
+    orig_db = os.path.join(os.path.dirname(__file__), "reconcile_ai.db")
+    if os.path.exists(orig_db) and not os.path.exists(DB_FILE):
+        import shutil
+        shutil.copy2(orig_db, DB_FILE)
+else:
+    DB_FILE = os.path.join(os.path.dirname(__file__), "reconcile_ai.db")
+
 SCHEMA_FILE = os.path.join(os.path.dirname(__file__), "schema.sql")
 
 def get_connection() -> sqlite3.Connection:
     conn = sqlite3.connect(DB_FILE, timeout=10.0, check_same_thread=False)
     conn.row_factory = sqlite3.Row
-    conn.execute("PRAGMA journal_mode = WAL;") # Write-Ahead Logging for high concurrent read performance
+    try:
+        conn.execute("PRAGMA journal_mode = WAL;")
+    except Exception:
+        pass
     conn.execute("PRAGMA foreign_keys = ON;")
     return conn
 
