@@ -1,3 +1,13 @@
+---
+title: ReconcileAI Enterprise Console
+emoji: ⚡
+colorFrom: indigo
+colorTo: cyan
+sdk: docker
+app_port: 7860
+pinned: false
+---
+
 # Autonomous Invoice Reconciliation Enterprise System
 
 > **HackSprint Manipal Submission**  
